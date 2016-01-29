@@ -1,0 +1,121 @@
+&ConfigInputs
+
+    ! Regression testing
+    RegTFlag = 0
+
+    ! Wall calculation
+     GPFlag   = 1
+     FSFlag   = 1
+     SWFlag   = 1
+     SWFlag2   = 1
+     GPGridSF = 1.0
+     FSGridSF = 1.0
+     SWGridSF = 1.0
+     GPGridExtent = 10
+
+    ! Calculations inputs
+    nr  	 = 12
+    nti 	 =50
+    convrg	 = -1
+    iut 	 = 1
+    iWall    = 0
+    TSFilFlag = 0
+    ntsf     = 1
+    ivtxcor  = 1
+    vcrfb    = 1
+    vcrft    = 1
+    vcrfs    = 1
+    Incompr  = 0
+    ifc 	 = 0
+    nric 	 = -1
+    ntif     = -1
+    convrgf	 = -1
+    iutf	 = 0
+    ixterm 	 = 0
+    xstop    = 5
+
+    ! Dynamic aero effects
+    DSFlag   = 0 
+    PRFlag   = 1 
+
+/End
+
+
+&CaseInputs
+
+    jbtitle = 'RM2_CACTUS'  
+
+    ! Operation point inputs
+    RPM 	=55.075
+    Ut  	=3.1
+    rho 	= 1.936
+    vis 	= 2.034E-5                                   
+    tempr 	= 70
+    hBLRef 	= 0.00001
+    slex 	= 0.001
+    hAG 	= 2.744915
+    dFS     = 5.26034
+    WzD		= 6.00394
+    igust   = 0
+    gustamp = 0
+    gusttime = 0
+    gustX0  = 0
+    itower  = 1
+    tower_Npts = 10
+    tower_x = 0
+    tower_ybot = 0
+    tower_ytop = 1.5008
+    tower_D = 0.1181
+    tower_CD = 1.0
+
+    ! Geometry file
+    GeomFilePath='/home/awmurph/RM2_Blockage/Geom/RM2_Geom.geom'
+
+    ! Airfoil section data
+    nSect 	= 1
+    AFDPath	= '/home/awmurph/RM2_Blockage/Airfoil/NACA0021_AWM.dat'  
+
+    ! Other parameters	
+    CDPar   = 0
+    CTExcrM = 0
+
+/End
+
+&ConfigOutputs
+
+    ! Optional outputs
+    DiagOutFlag   = 1
+    Output_ELFlag = 0
+    Output_DSFlag = 0
+    WallOutFlag   = 1
+
+    ! Configure Wake Outputs
+
+    WakeElementOutFlag = 1
+
+    WakeElementOutIntervalTimesteps = 5
+
+    WakeElementOutStartTimestep = 450
+
+    WakeElementOutEndTimestep = -1
+
+    WakeGridOutFlag = 1
+
+    WakeGridOutIntervalTimesteps = 5
+
+    WakeGridOutStartTimestep = 450
+
+    WakeGridOutEndTimestep = -1
+
+    nxgrid = 50
+    nygrid = 50
+    nzgrid = 50
+
+    xgridL = -4.0
+    xgridU = 10.0
+    ygridL = -1.5565
+    ygridU = 2.9829
+    zgridL = -3.411329542
+    zgridU = 3.411329542
+
+/End
