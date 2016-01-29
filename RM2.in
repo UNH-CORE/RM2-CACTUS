@@ -43,7 +43,7 @@
 
 &CaseInputs
 
-    jbtitle = 'RM2_CACTUS'  
+    jbtitle = 'RM2'  
 
     ! Operation point inputs
     RPM 	=55.075
@@ -69,11 +69,11 @@
     tower_CD = 1.0
 
     ! Geometry file
-    GeomFilePath='/home/awmurph/RM2_Blockage/Geom/RM2_Geom.geom'
+    GeomFilePath='./geom/RM2_Geom.geom'
 
     ! Airfoil section data
     nSect 	= 1
-    AFDPath	= '/home/awmurph/RM2_Blockage/Airfoil/NACA0021_AWM.dat'  
+    AFDPath	= './foildata/NACA_0021.dat'  
 
     ! Other parameters	
     CDPar   = 0
