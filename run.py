@@ -5,6 +5,7 @@ from subprocess import call
 import os
 import sys
 import numpy as np
+import pandas as pd
 
 
 R = 0.5375
@@ -34,18 +35,57 @@ def run_cactus(tsr=3.1, overwrite=False, **kwargs):
                  "or -f to overwrite")
 
 
+def log_perf(fpath="results/tsr_sweep.csv"):
+    """Log mean performance from last revolution."""
+    tsr = pd.read_csv("results/RM2_Param.csv")["TSR (-)"].iloc[0]
+    run = pd.read_csv("results/RM2_RevData.csv").iloc[-1]
+    cp = run["Power Coeff. (-)"]
+    if os.path.isfile(fpath):
+        df = pd.read_csv(fpath)
+    else:
+        df = pd.DataFrame(columns=["tsr", "cp"])
+    df = df.append({"tsr": tsr, "cp": cp}, ignore_index=True)
+    df.to_csv(fpath, index=False)
+
+
+def tsr_sweep(tsr_list, append=False, **kwargs):
+    """Run simulation for multiple TSRs and log to CSV file."""
+    fpath = "results/tsr_sweep.csv"
+    if not append:
+        if os.path.isfile(fpath):
+            os.remove(fpath)
+    for tsr in tsr_list:
+        run_cactus(tsr=tsr, overwrite=True, **kwargs)
+        log_perf(fpath=fpath)
+
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run CACTUS for the RM2.")
-    parser.add_argument("tsr", default=3.1, type=float, nargs="?",
-                        help="Tip speed ratio")
+    parser.add_argument("--tsr", default=3.1, type=float,
+                        help="Tip speed ratio(s)")
+    parser.add_argument("--tsr-range", "-T", type=float, nargs=3,
+                        help="TSR range: start, stop (non-inclusive), step")
+    parser.add_argument("--tsr-list", type=float, nargs="+",
+                        help="TSR list")
     parser.add_argument("--dynamic-stall", "-d", default=2, type=int,
                         help="Dynamic stall model", choices=[0, 1, 2])
     parser.add_argument("--u-infty", "-U", type=float, default=1.0,
                         help="Free stream velocity in m/s")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
+    parser.add_argument("--append", "-a", default=False, action="store_true",
+                        help="Append if running multiple TSRs")
 
     args = parser.parse_args()
-    run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
-               u_infty=args.u_infty, overwrite=args.overwrite)
+
+    if args.tsr_range or args.tsr_list:
+        if args.tsr_range:
+            start, stop, step = args.tsr_range
+            tsr_list = np.arange(start, stop, step)
+        else:
+            tsr_list = args.tsr_list
+        tsr_sweep(tsr_list, append=args.append)
+    else:
+        run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
+                   u_infty=args.u_infty, overwrite=args.overwrite)
