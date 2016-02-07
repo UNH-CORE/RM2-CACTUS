@@ -10,7 +10,7 @@ import numpy as np
 R = 0.5375
 
 
-def create_input_file(u_infty=1.0, tsr=3.1, dynamic_stall=0):
+def create_input_file(u_infty=1.0, tsr=3.1, dynamic_stall=2):
     """Create CACTUS input file `config/RM2.in`."""
     params = {"dynamic_stall": dynamic_stall,
               "tsr": tsr,
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run CACTUS for the RM2.")
     parser.add_argument("tsr", default=3.1, type=float, nargs="?",
                         help="Tip speed ratio")
-    parser.add_argument("--dynamic-stall", "-d", default=0, type=int,
+    parser.add_argument("--dynamic-stall", "-d", default=2, type=int,
                         help="Dynamic stall model", choices=[0, 1, 2])
     parser.add_argument("--u-infty", "-U", type=float, default=1.0,
                         help="Free stream velocity in m/s")
