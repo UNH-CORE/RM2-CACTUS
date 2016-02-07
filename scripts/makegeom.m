@@ -1,9 +1,13 @@
-#!/usr/bin/octave -qf
+#!/usr/bin/octave -q
 
-clear
-close all
-
-% Creates test VAWT geometry file
+% Parse any command line arguments to determine number of blade elements
+arg_list = argv();
+if nargin > 0
+    NBElem = round(str2num(arg_list{1}));
+else
+    NBElem = 20;
+endif
+printf("Creating RM2 geometry with %d blade elements\n", NBElem);
 
 % Add geom creation scripts to path
 path(path,'~/CACTUS/CACTUS-tools/geometry/CreateGeom');
@@ -15,9 +19,8 @@ HR = 0.807/R_m;             % Height to radius ratio
 eta = 0.5;                  % Blade mount point ratio (mount point behind
                             % leading edge as a fraction of chord)
 NBlade = 3;                 % number of blades
-NBElem = 20;                % number of blade elements
 NStrut = 3;                 % number of struts
-NSElem = 10;                % number of strut elements
+NSElem = round(NBElem/2);   % number of strut elements
 CRs = 0.06/R_m;             % strut chord to radius
 TCs = 0.21;                 % strut thickness to chord
 
