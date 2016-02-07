@@ -6,13 +6,13 @@
     ! Wall calculation
      GPFlag   = 1      ! Use ground plane (default=0)
      FSFlag   = 1      ! Free surface (default=0)
-     SWFlag   = 1
-     SWFlag2   = 1
+    !  SWFlag   = 1      ! Unknown
+    !  SWFlag2   = 1     ! Unknown
      GPGridSF = 1.0    ! Factor on default ground plane grid spacing
                        ! (default=1.0)
      FSGridSF = 1.0    ! Factor on default free surface near-field grid spacing
                        ! (default=1.0)
-     SWGridSF = 1.0
+    !  SWGridSF = 1.0    ! Unknown
      GPGridExtent = 10 ! Distance the ground plane will extend from the
                        ! turbine location.
                        ! Measured in rotor radii. (default=10.0)
@@ -64,7 +64,7 @@
     slex 	= 0.001
     hAG 	= 2.744915
     dFS     = 5.26034
-    WzD		= 6.00394  ! Seems to be unused
+    ! WzD		= 6.00394  ! Unknown
     igust   = 0
     gustamp = 0
     gusttime = 0
