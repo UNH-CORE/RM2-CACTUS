@@ -1,3 +1,5 @@
+#!/usr/bin/octave -qf
+
 clear
 close all
 
