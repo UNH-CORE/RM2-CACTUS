@@ -7,6 +7,22 @@ software-download/). Note that the simulation may require an unreleased,
 non-backwards-compatible version of CACTUS.
 
 
+## Getting started
+
+Runs are automated and post-processed with Python. It is recommended users
+download and install the
+[Anaconda Python distribution](http://continuum.io/downloads) (3.5).
+
+
+## Usage
+
+Executing CACTUS is done with `run.py`. To see usage and options, execute
+
+    python run.py -h
+
+A similar script, `plot.py` is used for plotting the results.
+
+
 ## Acknowledgements
 
 Original configuration files (added in
