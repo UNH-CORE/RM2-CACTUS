@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-rm *.csv
-rm *.log
+rm -f *.csv *.log *.tp
