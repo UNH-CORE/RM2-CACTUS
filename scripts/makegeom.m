@@ -43,7 +43,8 @@ FlipN = 1;
 % CreateTurbine(NBlade,NBElem,NStrut,NSElem,RefR,RotN,RotP,RefAR,Type,varargin)
 Type = 'VAWT';
 BShape = 0;
-T = CreateTurbine(NBlade,NBElem,NStrut,NSElem,R,[],[],[],Type,1,CRr,HR,eta,BShape,CRs,TCs);
+T = CreateTurbine(NBlade,NBElem,NStrut,NSElem,R,[],[],[],Type,1,CRr,HR,eta,
+                  BShape,CRs,TCs);
 
 % Write geom file
 WriteTurbineGeom(FN,T);
