@@ -54,8 +54,8 @@
     jbtitle = 'RM2'
 
     ! Operation point inputs
-    RPM 	= 55.075
-    Ut  	= {tsr}      ! Tip speed ratio
+    RPM 	= {rpm}    ! RPM -- was 55.075
+    Ut  	= {tsr}    ! Tip speed ratio
     rho 	= 1.936    ! Density (slugs/ft^3)
     vis 	= 2.034E-5 ! Dynamic viscosity (slugs/(ft*s))
     tempr 	= 70       ! Temperature (degrees F)

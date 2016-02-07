@@ -4,12 +4,17 @@ from __future__ import division, print_function
 from subprocess import call
 import os
 import sys
+import numpy as np
 
 
-def create_input_file(tsr=3.1, dynamic_stall=0):
+R = 0.5375
+
+
+def create_input_file(u_infty=1.0, tsr=3.1, dynamic_stall=0):
     """Create CACTUS input file `config/RM2.in`."""
     params = {"dynamic_stall": dynamic_stall,
-              "tsr": tsr}
+              "tsr": tsr,
+              "rpm": tsr*u_infty/R/(2*np.pi)*60}
     with open("config/RM2.in.template") as f:
         txt = f.read()
     with open("config/RM2.in", "w") as f:
@@ -36,9 +41,11 @@ if __name__ == "__main__":
                         help="Tip speed ratio")
     parser.add_argument("--dynamic-stall", "-d", default=0, type=int,
                         help="Dynamic stall model", choices=[0, 1, 2])
+    parser.add_argument("--u-infty", "-U", type=float, default=1.0,
+                        help="Free stream velocity in m/s")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
 
     args = parser.parse_args()
     run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
-               overwrite=args.overwrite)
+               u_infty=args.u_infty, overwrite=args.overwrite)
