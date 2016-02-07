@@ -43,7 +43,7 @@
     xstop    = 5
 
     ! Dynamic aero effects
-    DSFlag   = 0    ! 0: No dynamic stall, 1: BV model, 2: LB model
+    DSFlag   = {dynamic_stall} ! 0: No dynamic stall, 1: BV model, 2: LB model
     PRFlag   = 1    ! Enable element pitch rate aerodynamic effects
 
 /End
@@ -55,7 +55,7 @@
 
     ! Operation point inputs
     RPM 	= 55.075
-    Ut  	= 3.1      ! Tip speed ratio
+    Ut  	= {tsr}      ! Tip speed ratio
     rho 	= 1.936    ! Density (slugs/ft^3)
     vis 	= 2.034E-5 ! Dynamic viscosity (slugs/(ft*s))
     tempr 	= 70       ! Temperature (degrees F)
