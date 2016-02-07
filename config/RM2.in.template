@@ -20,7 +20,7 @@
     ! Calculations inputs
     nr  	 = 12      ! Number of revolutions
     nti 	 = 50      ! Time steps per rev
-    convrg	 = -1      ! Convergence level for the revolution average power
+    convrg	 = 0.005   ! Convergence level for the revolution average power
                        ! coefficient.
                        ! Iteration will finish before nr revs if this level is
                        ! hit. Input -1 to skip convergence check (default)
