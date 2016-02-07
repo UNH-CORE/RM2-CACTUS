@@ -2,4 +2,4 @@
 
 from subprocess import call
 
-call("cactus RM2.in | tee log.cactus", shell=True)
+call("cactus RM2.in | tee cactus.log", shell=True)
