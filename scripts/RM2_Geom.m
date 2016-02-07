@@ -27,7 +27,7 @@ CRr(1,((NBElem/2)+1):(NBElem+1)) = CRr_1;
 
 
 % Output filename
-FN = 'config/geom/RM2_Geom.geom';
+FN = 'config/RM2.geom';
 
 % Plot data?
 PlotTurbine = 0;
