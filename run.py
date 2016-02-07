@@ -7,6 +7,10 @@ import sys
 
 
 if not os.path.isfile("cactus.log"):
-    call("cactus RM2.in | tee cactus.log", shell=True)
+    if not os.path.isdir("results"):
+        os.mkdir("results")
+    os.chdir("results")
+    call("cactus ../config/RM2.in | tee ../cactus.log", shell=True)
+    call("pwd")
 else:
     sys.exit("Simulation results present; use ./clean.sh to remove")

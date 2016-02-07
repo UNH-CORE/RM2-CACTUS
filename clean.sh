@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-rm -f *.csv *.log *.tp
+rm -f results/*.csv *.log results/*.tp
