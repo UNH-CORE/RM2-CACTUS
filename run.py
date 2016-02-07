@@ -65,7 +65,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run CACTUS for the RM2.")
     parser.add_argument("--tsr", default=3.1, type=float,
-                        help="Tip speed ratio(s)")
+                        help="Tip speed ratio")
     parser.add_argument("--tsr-range", "-T", type=float, nargs=3,
                         help="TSR range: start, stop (non-inclusive), step")
     parser.add_argument("--tsr-list", type=float, nargs="+",
