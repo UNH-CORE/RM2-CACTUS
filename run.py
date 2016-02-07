@@ -11,6 +11,5 @@ if not os.path.isfile("cactus.log"):
         os.mkdir("results")
     os.chdir("results")
     call("cactus ../config/RM2.in | tee ../cactus.log", shell=True)
-    call("pwd")
 else:
     sys.exit("Simulation results present; use ./clean.sh to remove")
