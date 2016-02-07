@@ -21,8 +21,8 @@ NSElem = 10;                % number of strut elements
 CRs = 0.06/R_m;             % strut chord to radius
 TCs = 0.21;                 % strut thickness to chord
 
-CT = 0.040/R_m;             % Root chord to radius
-CR = 0.067/R_m;             % Tip chord to radius
+CT = 0.040/R_m;             % Tip chord to radius
+CR = 0.067/R_m;             % Root chord to radius
 CRr_1 = linspace(CR,CT,(NBElem/2)+1);
 CRr_2 = linspace(CT,CR,(NBElem/2)+1);
 CRr(1,1:NBElem/2) = CRr_2(1,1:NBElem/2);
