@@ -5,7 +5,7 @@
 
     ! Wall calculation
      GPFlag   = 1      ! Use ground plane (default=0)
-     FSFlag   = 1      ! Free surface (default=0)
+    !  FSFlag   = 1      ! Free surface (default=0)
     !  SWFlag   = 1      ! Unknown
     !  SWFlag2   = 1     ! Unknown
      GPGridSF = 1.0    ! Factor on default ground plane grid spacing
@@ -27,7 +27,7 @@
     iut 	 = 1       ! Number of iterations between wake convection velocity
                        ! updates
     iWall    = 0       ! Number of iterations between wall model updates
-    TSFilFlag = 0
+    TSFilFlag = 0      ! Flag to enable timestep filtering
     ntsf     = 1
     ivtxcor  = 1       ! finite vortex core model to use
     vcrfb    = 1
@@ -35,8 +35,8 @@
     vcrfs    = 1
     Incompr  = 0
     ifc 	 = 0
-    nric 	 = -1
-    ntif     = -1
+    nric 	 = -1   ! Revolution after which to switch to final convergence
+    ntif     = -1   ! Final number of time steps per revolution
     convrgf	 = -1
     iutf	 = 0
     ixterm 	 = 0
@@ -61,7 +61,7 @@
     tempr 	= 70       ! Temperature (degrees F)
     hBLRef 	= 0.00001  ! Height above ground of the effective freestream to be
                        ! used in ground shear layer model (ft)
-    slex 	= 0.001
+    slex 	= 0.001    ! Exponent for ground shear layer model
     hAG 	= 2.744915
     dFS     = 5.26034
     ! WzD		= 6.00394  ! Unknown
@@ -94,16 +94,16 @@
 
     ! Optional outputs
     DiagOutFlag   = 1
-    Output_ELFlag = 0
+    Output_ELFlag = 0 ! Output full detail element loads .csv file
     Output_DSFlag = 0
-    WallOutFlag   = 1
+    WallOutFlag   = 1 ! Output wall panel data
 
     ! Configure Wake Outputs
-    WakeElementOutFlag = 1
+    WakeElementOutFlag = 1 ! Output wake element locations
     WakeElementOutIntervalTimesteps = 5
     WakeElementOutStartTimestep = 450
     WakeElementOutEndTimestep = -1
-    WakeGridOutFlag = 1
+    WakeGridOutFlag = 1 ! Output induced velocity on a 3-D Cartesian grid
     WakeGridOutIntervalTimesteps = 5
     WakeGridOutStartTimestep = 450
     WakeGridOutEndTimestep = -1
