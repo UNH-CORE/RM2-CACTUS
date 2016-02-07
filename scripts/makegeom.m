@@ -12,7 +12,8 @@ path(path,'~/CACTUS/CACTUS-tools/geometry/CreateGeom');
 R = 0.5375*3.28084;         % Center radius (ft)
 R_m = 0.5375;               % radius in m at midspan
 HR = 0.807/R_m;             % Height to radius ratio
-eta = 0.5;                  % Blade mount point ratio (mount point behind leading edge as a fraction of chord)
+eta = 0.5;                  % Blade mount point ratio (mount point behind
+                            % leading edge as a fraction of chord)
 NBlade = 3;                 % number of blades
 NBElem = 20;                % number of blade elements
 NStrut = 3;                 % number of struts
