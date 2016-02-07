@@ -96,7 +96,7 @@
     DiagOutFlag   = 1
     Output_ELFlag = 0 ! Output full detail element loads .csv file
     Output_DSFlag = 0
-    WallOutFlag   = 1 ! Output wall panel data
+    WallOutFlag   = 0 ! Output wall panel data
 
     ! Configure Wake Outputs
     WakeElementOutFlag = 1 ! Output wake element locations
