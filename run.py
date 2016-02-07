@@ -16,9 +16,10 @@ def create_input_file(tsr=3.1, dynamic_stall=0):
         f.write(txt.format(**params))
 
 
-def run_cactus(overwrite=False):
+def run_cactus(tsr=3.1, overwrite=False, **kwargs):
     """Run CACTUS and write output to `cactus.log`."""
     if not os.path.isfile("cactus.log") or overwrite:
+        create_input_file(**kwargs)
         if not os.path.isdir("results"):
             os.mkdir("results")
         os.chdir("results")
@@ -28,6 +29,4 @@ def run_cactus(overwrite=False):
 
 
 if __name__ == "__main__":
-    overwrite = True
-    create_input_file(tsr=3.1)
-    run_cactus(overwrite=overwrite)
+    run_cactus(tsr=3.1, dynamic_stall=0, overwrite=True)
