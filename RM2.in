@@ -4,24 +4,32 @@
     RegTFlag = 0
 
     ! Wall calculation
-     GPFlag   = 1
-     FSFlag   = 1
+     GPFlag   = 1      ! Use ground plane (default=0)
+     FSFlag   = 1      ! Free surface (default=0)
      SWFlag   = 1
      SWFlag2   = 1
-     GPGridSF = 1.0
-     FSGridSF = 1.0
+     GPGridSF = 1.0    ! Factor on default ground plane grid spacing
+                       ! (default=1.0)
+     FSGridSF = 1.0    ! Factor on default free surface near-field grid spacing
+                       ! (default=1.0)
      SWGridSF = 1.0
-     GPGridExtent = 10
+     GPGridExtent = 10 ! Distance the ground plane will extend from the
+                       ! turbine location.
+                       ! Measured in rotor radii. (default=10.0)
 
     ! Calculations inputs
-    nr  	 = 12
-    nti 	 =50
-    convrg	 = -1
-    iut 	 = 1
-    iWall    = 0
+    nr  	 = 12      ! Number of revolutions
+    nti 	 = 50      ! Time steps per rev
+    convrg	 = -1      ! Convergence level for the revolution average power
+                       ! coefficient.
+                       ! Iteration will finish before nr revs if this level is
+                       ! hit. Input -1 to skip convergence check (default)
+    iut 	 = 1       ! Number of iterations between wake convection velocity
+                       ! updates
+    iWall    = 0       ! Number of iterations between wall model updates
     TSFilFlag = 0
     ntsf     = 1
-    ivtxcor  = 1
+    ivtxcor  = 1       ! finite vortex core model to use
     vcrfb    = 1
     vcrft    = 1
     vcrfs    = 1
@@ -35,27 +43,28 @@
     xstop    = 5
 
     ! Dynamic aero effects
-    DSFlag   = 0 
-    PRFlag   = 1 
+    DSFlag   = 0    ! 0: No dynamic stall, 1: BV model, 2: LB model
+    PRFlag   = 1    ! Enable element pitch rate aerodynamic effects
 
 /End
 
 
 &CaseInputs
 
-    jbtitle = 'RM2'  
+    jbtitle = 'RM2'
 
     ! Operation point inputs
-    RPM 	=55.075
-    Ut  	=3.1
-    rho 	= 1.936
-    vis 	= 2.034E-5                                   
-    tempr 	= 70
-    hBLRef 	= 0.00001
+    RPM 	= 55.075
+    Ut  	= 3.1      ! Tip speed ratio
+    rho 	= 1.936    ! Density (slugs/ft^3)
+    vis 	= 2.034E-5 ! Dynamic viscosity (slugs/(ft*s))
+    tempr 	= 70       ! Temperature (degrees F)
+    hBLRef 	= 0.00001  ! Height above ground of the effective freestream to be
+                       ! used in ground shear layer model (ft)
     slex 	= 0.001
     hAG 	= 2.744915
     dFS     = 5.26034
-    WzD		= 6.00394
+    WzD		= 6.00394  ! Seems to be unused
     igust   = 0
     gustamp = 0
     gusttime = 0
@@ -73,9 +82,9 @@
 
     ! Airfoil section data
     nSect 	= 1
-    AFDPath	= './foildata/NACA_0021.dat'  
+    AFDPath	= './foildata/NACA_0021.dat'
 
-    ! Other parameters	
+    ! Other parameters
     CDPar   = 0
     CTExcrM = 0
 
@@ -90,21 +99,13 @@
     WallOutFlag   = 1
 
     ! Configure Wake Outputs
-
     WakeElementOutFlag = 1
-
     WakeElementOutIntervalTimesteps = 5
-
     WakeElementOutStartTimestep = 450
-
     WakeElementOutEndTimestep = -1
-
     WakeGridOutFlag = 1
-
     WakeGridOutIntervalTimesteps = 5
-
     WakeGridOutStartTimestep = 450
-
     WakeGridOutEndTimestep = -1
 
     nxgrid = 50
