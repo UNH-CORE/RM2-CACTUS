@@ -28,10 +28,10 @@ def run_cactus(tsr=3.1, overwrite=False, **kwargs):
         create_input_file(tsr=tsr, **kwargs)
         if not os.path.isdir("results"):
             os.mkdir("results")
-        root_dir = os.path.split(__file__)[0]
+        start_dir = os.getcwd()
         os.chdir("results")
         call("cactus ../config/RM2.in | tee ../cactus.log", shell=True)
-        os.chdir(root_dir)
+        os.chdir(start_dir)
     else:
         sys.exit("Simulation results present; use ./clean.sh to remove "
                  "or -f to overwrite")
