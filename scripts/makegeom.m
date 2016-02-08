@@ -7,7 +7,7 @@ if nargin > 0
 else
     NBElem = 20;
 endif
-printf("Creating RM2 geometry with %d blade elements\n", NBElem);
+printf('Creating RM2 geometry with %d blade elements\n', NBElem);
 
 % Add geom creation scripts to path
 path(path,'~/CACTUS/CACTUS-tools/geometry/CreateGeom');
