@@ -34,7 +34,7 @@
     vcrft    = 1
     vcrfs    = 1
     Incompr  = 0
-    ifc 	 = 0
+    ifc 	 = 0    ! Switch to use final convergence step
     nric 	 = -1   ! Revolution after which to switch to final convergence
     ntif     = -1   ! Final number of time steps per revolution
     convrgf	 = -1
