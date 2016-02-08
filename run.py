@@ -50,14 +50,16 @@ def log_perf(fpath="results/tsr_sweep.csv"):
     df.to_csv(fpath, index=False)
 
 
-def tsr_sweep(tsr_list, append=False, **kwargs):
+def tsr_sweep(tsr_list, append=False, overwrite=False, dynamic_stall=2,
+              u_infty=1.0):
     """Run simulation for multiple TSRs and log to CSV file."""
-    fpath = "results/tsr_sweep.csv"
+    fpath = "results/tsr_sweep_u{:.1f}_ds{}.csv".format(u_infty, dynamic_stall)
     if not append:
         if os.path.isfile(fpath):
             os.remove(fpath)
     for tsr in tsr_list:
-        run_cactus(tsr=tsr, overwrite=True, **kwargs)
+        run_cactus(tsr=tsr, overwrite=overwrite, dynamic_stall=dynamic_stall,
+                   u_infty=u_infty)
         log_perf(fpath=fpath)
 
 
@@ -87,7 +89,7 @@ if __name__ == "__main__":
             tsr_list = np.arange(start, stop, step)
         else:
             tsr_list = args.tsr_list
-        tsr_sweep(tsr_list, append=args.append,
+        tsr_sweep(tsr_list, append=args.append, overwrite=args.overwrite,
                   dynamic_stall=args.dynamic_stall, u_infty=args.u_infty)
     else:
         run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
