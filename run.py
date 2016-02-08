@@ -87,7 +87,8 @@ if __name__ == "__main__":
             tsr_list = np.arange(start, stop, step)
         else:
             tsr_list = args.tsr_list
-        tsr_sweep(tsr_list, append=args.append)
+        tsr_sweep(tsr_list, append=args.append,
+                  dynamic_stall=args.dynamic_stall, u_infty=args.u_infty)
     else:
         run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
                    u_infty=args.u_infty, overwrite=args.overwrite)
