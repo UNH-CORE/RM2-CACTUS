@@ -42,11 +42,12 @@ def log_perf(fpath="results/tsr_sweep.csv"):
     tsr = pd.read_csv("results/RM2_Param.csv")["TSR (-)"].iloc[0]
     run = pd.read_csv("results/RM2_RevData.csv").iloc[-1]
     cp = run["Power Coeff. (-)"]
+    cd = run["Fx Coeff. (-)"]
     if os.path.isfile(fpath):
         df = pd.read_csv(fpath)
     else:
-        df = pd.DataFrame(columns=["tsr", "cp"])
-    df = df.append({"tsr": tsr, "cp": cp}, ignore_index=True)
+        df = pd.DataFrame(columns=["tsr", "cp", "cd"])
+    df = df.append({"tsr": tsr, "cp": cp, "cd": cd}, ignore_index=True)
     df.to_csv(fpath, index=False)
 
 
