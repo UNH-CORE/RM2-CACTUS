@@ -4,7 +4,7 @@
     RegTFlag = 0
 
     ! Wall calculation
-     GPFlag   = 1      ! Use ground plane (default=0)
+     GPFlag   = 0      ! Use ground plane (default=0)
     !  FSFlag   = 1      ! Free surface (default=0)
     !  SWFlag   = 1      ! Unknown
     !  SWFlag2   = 1     ! Unknown
@@ -20,7 +20,7 @@
     ! Calculations inputs
     nr  	 = 12      ! Number of revolutions
     nti 	 = 50      ! Time steps per rev
-    convrg	 = 0.005   ! Convergence level for the revolution average power
+    convrg	 = 0.01    ! Convergence level for the revolution average power
                        ! coefficient.
                        ! Iteration will finish before nr revs if this level is
                        ! hit. Input -1 to skip convergence check (default)
