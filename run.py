@@ -54,11 +54,14 @@ def tsr_sweep(tsr_list, append=False, overwrite=False, dynamic_stall=2,
               u_infty=1.0):
     """Run simulation for multiple TSRs and log to CSV file."""
     fpath = "results/tsr_sweep_u{:.1f}_ds{}.csv".format(u_infty, dynamic_stall)
-    if not append:
-        if os.path.isfile(fpath):
+    if os.path.isfile(fpath):
+        if not overwrite and not append:
+            sys.exit("TSR sweep results present; remove, --append, or "
+                     "--overwrite")
+        if not append or overwrite:
             os.remove(fpath)
     for tsr in tsr_list:
-        run_cactus(tsr=tsr, overwrite=overwrite, dynamic_stall=dynamic_stall,
+        run_cactus(tsr=tsr, overwrite=True, dynamic_stall=dynamic_stall,
                    u_infty=u_infty)
         log_perf(fpath=fpath)
 
