@@ -24,8 +24,8 @@
                        ! coefficient.
                        ! Iteration will finish before nr revs if this level is
                        ! hit. Input -1 to skip convergence check (default)
-    iut 	 = 1       ! Number of iterations between wake convection velocity
-                       ! updates
+    iut      = 1       ! Number of iterations between wake convection velocity
+                       ! updates (0: automatic, -1: none)
     iWall    = 0       ! Number of iterations between wall model updates
     TSFilFlag = 0      ! Flag to enable timestep filtering
     ntsf     = 1
