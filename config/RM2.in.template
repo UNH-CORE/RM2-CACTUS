@@ -29,7 +29,7 @@
     iWall    = 0       ! Number of iterations between wall model updates
     TSFilFlag = 0      ! Flag to enable timestep filtering
     ntsf     = 1
-    ivtxcor  = 1       ! finite vortex core model to use
+    ivtxcor  = 1       ! Finite vortex core model to use (0: none)
     vcrfb    = 1
     vcrft    = 1
     vcrfs    = 1
