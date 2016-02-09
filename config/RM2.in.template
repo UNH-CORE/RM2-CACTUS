@@ -33,7 +33,7 @@
     vcrfb    = 1
     vcrft    = 1
     vcrfs    = 1
-    Incompr  = 0
+    Incompr  = 1    ! Switch for incompressible flow
     ifc 	 = 0    ! Switch to use final convergence step
     nric 	 = -1   ! Revolution after which to switch to final convergence
     ntif     = -1   ! Final number of time steps per revolution
