@@ -70,7 +70,7 @@
     gustamp = 0
     gusttime = 0
     gustX0  = 0
-    itower  = 1
+    itower  = 1        ! Switch to activate tower wake model
     tower_Npts = 10
     tower_x = 0
     tower_ybot = 0
