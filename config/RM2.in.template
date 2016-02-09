@@ -38,9 +38,10 @@
     nric 	 = -1   ! Revolution after which to switch to final convergence
     ntif     = -1   ! Final number of time steps per revolution
     convrgf	 = -1
-    iutf	 = 0
-    ixterm 	 = 0
-    xstop    = 5
+    iutf     = 0    ! Final number of iterations between wake updates
+    ixterm 	 = 0    ! Switch to ignore wake points beyond x/R = xstop
+    xstop    = 5    ! If ixterm = 1, defines x/R beyond which wake points are
+                    ! ignored (default=5)
 
     ! Dynamic aero effects
     DSFlag   = {dynamic_stall} ! 0: No dynamic stall, 1: BV model, 2: LB model
