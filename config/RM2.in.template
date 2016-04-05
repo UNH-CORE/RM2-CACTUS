@@ -19,7 +19,7 @@
 
     ! Calculations inputs
     nr  	 = 12      ! Number of revolutions
-    nti 	 = 24      ! Time steps per rev
+    nti 	 = {nti}      ! Time steps per rev
     convrg	 = 0.02    ! Convergence level for the revolution average power
                        ! coefficient.
                        ! Iteration will finish before nr revs if this level is

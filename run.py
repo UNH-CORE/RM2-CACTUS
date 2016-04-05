@@ -11,11 +11,12 @@ import pandas as pd
 R = 0.5375
 
 
-def create_input_file(u_infty=1.0, tsr=3.1, dynamic_stall=2):
+def create_input_file(u_infty=1.0, tsr=3.1, dynamic_stall=2, **kwargs):
     """Create CACTUS input file `config/RM2.in`."""
     params = {"dynamic_stall": dynamic_stall,
               "tsr": tsr,
               "rpm": tsr*u_infty/R/(2*np.pi)*60}
+    params.update(kwargs)
     with open("config/RM2.in.template") as f:
         txt = f.read()
     with open("config/RM2.in", "w") as f:
@@ -59,7 +60,7 @@ def log_perf(fpath="results/tsr_sweep.csv"):
 
 
 def tsr_sweep(tsr_list, append=False, overwrite=False, dynamic_stall=2,
-              u_infty=1.0):
+              u_infty=1.0, nbelem=12, **kwargs):
     """Run simulation for multiple TSRs and log to CSV file."""
     fpath = "results/tsr_sweep_u{:.1f}_ds{}.csv".format(u_infty, dynamic_stall)
     if os.path.isfile(fpath):
@@ -70,7 +71,7 @@ def tsr_sweep(tsr_list, append=False, overwrite=False, dynamic_stall=2,
             os.remove(fpath)
     for tsr in tsr_list:
         run_cactus(tsr=tsr, overwrite=True, dynamic_stall=dynamic_stall,
-                   u_infty=u_infty)
+                   u_infty=u_infty, nbelem=nbelem, **kwargs)
         log_perf(fpath=fpath)
 
 
@@ -87,6 +88,10 @@ if __name__ == "__main__":
                         help="Dynamic stall model", choices=[0, 1, 2])
     parser.add_argument("--u-infty", "-U", type=float, default=1.0,
                         help="Free stream velocity in m/s")
+    parser.add_argument("--nti", "-n", type=int, default=24,
+                        help="Time steps per rev")
+    parser.add_argument("--nbelem", "-e", type=int, default=12,
+                        help="Number of elements per blade")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
     parser.add_argument("--append", "-a", default=False, action="store_true",
@@ -101,7 +106,9 @@ if __name__ == "__main__":
         else:
             tsr_list = args.tsr_list
         tsr_sweep(tsr_list, append=args.append, overwrite=args.overwrite,
-                  dynamic_stall=args.dynamic_stall, u_infty=args.u_infty)
+                  dynamic_stall=args.dynamic_stall, u_infty=args.u_infty,
+                  nti=args.nti, nbelem=args.nbelem)
     else:
         run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
-                   u_infty=args.u_infty, overwrite=args.overwrite)
+                   u_infty=args.u_infty, overwrite=args.overwrite,
+                   nti=args.nti, nbelem=args.nbelem)
