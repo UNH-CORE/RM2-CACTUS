@@ -4,18 +4,18 @@
     RegTFlag = 0
 
     ! Wall calculation
-    GPFlag   = 0         ! Use ground plane (default=0)
+    GPFlag   = 1        ! Use ground plane (default=0)
     ! FSFlag   = 1      ! Free surface (default=0)
     ! SWFlag   = 1      ! Unknown
     ! SWFlag2   = 1     ! Unknown
-    GPGridSF = 1.0     ! Factor on default ground plane grid spacing
-                       ! (default=1.0)
-    FSGridSF = 1.0     ! Factor on default free surface near-field grid spacing
-                       ! (default=1.0)
+    GPGridSF = 1.0      ! Factor on default ground plane grid spacing
+                        ! (default=1.0)
+    FSGridSF = 1.0      ! Factor on default free surface near-field grid spacing
+                        ! (default=1.0)
     ! SWGridSF = 1.0    ! Unknown
-    GPGridExtent = 1.52  ! Distance the ground plane will extend from the
-                         ! turbine location.
-                         ! Measured in rotor radii. (default=10.0)
+    GPGridExtent = 1.52 ! Distance the ground plane will extend from the
+                        ! turbine location.
+                        ! Measured in rotor radii. (default=10.0)
 
     ! Calculations inputs
     nr  	 = 12      ! Number of revolutions
