@@ -1,3 +1,6 @@
 [submodule "cactus"]
 	path = cactus
 	url = git@github.com:petebachant/CACTUS.git
+[submodule "cactus-tools"]
+	path = cactus-tools
+	url = git@github.com:petebachant/CACTUS-tools.git

@@ -10,7 +10,7 @@ endif
 printf('Creating RM2 geometry with %d blade elements\n', NBElem);
 
 % Add geom creation scripts to path
-path(path,'~/CACTUS/CACTUS-tools/geometry/CreateGeom');
+path(path,'./cactus-tools/geometry/CreateGeom');
 
 % Params
 R = 0.5375*3.28084;         % Center radius (ft)
