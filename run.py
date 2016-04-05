@@ -22,9 +22,15 @@ def create_input_file(u_infty=1.0, tsr=3.1, dynamic_stall=2):
         f.write(txt.format(**params))
 
 
-def run_cactus(tsr=3.1, overwrite=False, **kwargs):
+def create_geom_file(nbelem=12):
+    """Create CACTUS geometry file using Octave script."""
+    call("octave -q scripts/makegeom.m {}".format(nbelem), shell=True)
+
+
+def run_cactus(tsr=3.1, nbelem=12, overwrite=False, **kwargs):
     """Run CACTUS and write output to `cactus.log`."""
     if not os.path.isfile("cactus.log") or overwrite:
+        create_geom_file(nbelem)
         create_input_file(tsr=tsr, **kwargs)
         if not os.path.isdir("results"):
             os.mkdir("results")

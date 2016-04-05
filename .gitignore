@@ -65,5 +65,6 @@ target/
 *.csv
 *.log
 
-# Automatically generated input file
-*.in
+# Automatically generated input and geometry files
+config/RM2.in
+config/RM2.geom
