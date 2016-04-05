@@ -30,7 +30,8 @@ def run_cactus(tsr=3.1, overwrite=False, **kwargs):
             os.mkdir("results")
         start_dir = os.getcwd()
         os.chdir("results")
-        call("cactus ../config/RM2.in | tee ../cactus.log", shell=True)
+        call("../cactus/bin/cactus ../config/RM2.in | tee ../cactus.log",
+             shell=True)
         os.chdir(start_dir)
     else:
         sys.exit("Simulation results present; use ./clean.sh to remove "
