@@ -55,6 +55,7 @@ def run_cactus(tsr=3.1, nbelem=12, overwrite=False, **kwargs):
             os.mkdir("results")
         start_dir = os.getcwd()
         os.chdir("results")
+        print("Running CACTUS for TSR={}".format(tsr))
         call("../cactus/bin/cactus ../config/RM2.in > ../cactus.log",
              shell=True)
         os.chdir(start_dir)
