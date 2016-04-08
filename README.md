@@ -13,6 +13,10 @@ Runs are automated and post-processed with Python. It is recommended users
 download and install the
 [Anaconda Python distribution](http://continuum.io/downloads) (3.5).
 
+To download and compile CACTUS, initialize the submodules, then run
+
+    ./scripts/make-cactus.sh
+
 
 ## Usage
 
@@ -21,6 +25,25 @@ Executing CACTUS is done with `run.py`. To see usage and options, execute
     python run.py -h
 
 A similar script, `plot.py` is used for plotting the results.
+
+
+### Examples
+
+Run at a single tip speed ratio without dynamic stall:
+
+    python run.py --tsr=3.1 --dynamic-stall=0
+
+Calculate turbine performance curve:
+
+    python run.py -p tsr 1.1 5.2 0.5
+
+Run time step dependence parameter sweep:
+
+    python run.py -p nti 8 57 8
+
+Run parameter sweep for number of blade elements:
+
+    python run.py -p nbelem 6 19 2
 
 
 ## Acknowledgements
