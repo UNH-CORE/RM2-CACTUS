@@ -67,6 +67,21 @@ def plot_perf_curves(exp=False, save=False):
         fig.savefig("figures/perf-curves.pdf")
 
 
+def plot_verification(save=False):
+    """Plot the sensitivity to time step and number of blade elements."""
+    fig, ax = plt.subplots(figsize=(7.5, 3), nrows=1, ncols=2)
+    df = pd.read_csv("results/nti_sweep.csv")
+    ax[0].plot(df.nti, df.cp, marker="o")
+    ax[0].set_xlabel("Time steps per rev.")
+    df = pd.read_csv("results/nbelem_sweep.csv")
+    ax[1].plot(df.nbelem, df.cp, marker="o")
+    ax[1].set_xlabel("Elements per blade")
+    [a.set_ylabel("$C_P$") for a in ax]
+    fig.tight_layout()
+    if save:
+        fig.savefig("figures/verification.pdf")
+
+
 if __name__ == "__main__":
     set_sns()
     plt.rcParams["axes.grid"] = True
