@@ -75,11 +75,12 @@ def log_perf(fpath="results/tsr_sweep.csv"):
         df = pd.read_csv(fpath)
     else:
         df = pd.DataFrame(columns=["tsr", "cp", "cd", "u_infty", "dsflag",
-                                   "nti", "nbelem"])
+                                   "nti", "nbelem", "nrevs"])
     d = {"tsr": tsr, "cp": cp, "cd": cd, "u_infty": u_infty}
     d["dsflag"] = get_param("dsflag", dtype=int)
     d["nbelem"] = get_nbelem()
     d["nti"] = get_param("nti", dtype=int)
+    d["nrevs"] = int(run["Rev"])
     df = df.append(d, ignore_index=True)
     df.to_csv(fpath, index=False)
 
@@ -131,7 +132,7 @@ if __name__ == "__main__":
 
     if args.param_sweep:
         name, start, stop, step = args.param_sweep
-        if name in ["nti", "nbelem"]:
+        if name in ["nti", "nbelem", "dynamic_stall"]:
             dtype = int
         else:
             dtype = float
