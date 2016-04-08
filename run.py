@@ -55,7 +55,7 @@ def run_cactus(tsr=3.1, nbelem=12, overwrite=False, **kwargs):
             os.mkdir("results")
         start_dir = os.getcwd()
         os.chdir("results")
-        call("../cactus/bin/cactus ../config/RM2.in | tee ../cactus.log",
+        call("../cactus/bin/cactus ../config/RM2.in > ../cactus.log",
              shell=True)
         os.chdir(start_dir)
     else:
@@ -67,7 +67,7 @@ def log_perf(fpath="results/tsr_sweep.csv"):
     """Log mean performance from last revolution."""
     params = pd.read_csv("results/RM2_Param.csv")
     tsr = params["TSR (-)"].iloc[0]
-    u_infty = params["U (ft/s)"].iloc[0]*0.3048
+    u_infty = np.round(params["U (ft/s)"].iloc[0]*0.3048, decimals=5)
     run = pd.read_csv("results/RM2_RevData.csv").iloc[-1]
     cp = run["Power Coeff. (-)"]
     cd = run["Fx Coeff. (-)"]
@@ -84,74 +84,27 @@ def log_perf(fpath="results/tsr_sweep.csv"):
     df.to_csv(fpath, index=False)
 
 
-def tsr_sweep(tsr_list, append=False, overwrite=False, dynamic_stall=2,
-              u_infty=1.0, nbelem=12, **kwargs):
-    """Run simulation for multiple TSRs and log to CSV file."""
-    fpath = "results/tsr_sweep_u{:.1f}_ds{}.csv".format(u_infty, dynamic_stall)
-    if os.path.isfile(fpath):
-        if not overwrite and not append:
-            sys.exit("TSR sweep results present; remove, --append, or "
-                     "--overwrite")
-        if not append or overwrite:
-            os.remove(fpath)
-    for tsr in tsr_list:
-        run_cactus(tsr=tsr, overwrite=True, dynamic_stall=dynamic_stall,
-                   u_infty=u_infty, nbelem=nbelem, **kwargs)
-        log_perf(fpath=fpath)
-
-
 def param_sweep(param="tsr", start=None, stop=None, step=None, dtype=float,
-                append=False):
+                overwrite=False, append=False, **kwargs):
     """Run multiple simulations, varying `quantity`.
 
     `step` is not included.
     """
     print("Running {} sweep".format(param))
     fpath = "results/{}_sweep.csv".format(param)
-    if not append and os.path.isfile(fpath):
-        os.remove(fpath)
+    if os.path.isfile(fpath):
+        if not overwrite and not append:
+            sys.exit("{} sweep results present; remove, --append, or "
+                     "--overwrite".format(param))
+        if not append or overwrite:
+            os.remove(fpath)
     param_list = np.arange(start, stop, step, dtype=dtype)
     for p in param_list:
         print("Setting {} to {}".format(param, p))
-        if param == "tsr":
-            set_tsr(p)
-            # Set time step to keep steps-per-rev constant
-            set_dt(tsr=p)
-        elif param == "nx":
-            set_blockmesh_resolution(nx=p)
-        elif param == "dt":
-            set_dt(p)
-        if p == param_list[0] or param == "nx":
-            call("./Allclean")
-            print("Running blockMesh")
-            call("blockMesh > log.blockMesh", shell=True)
-            print("Running snappyHexMesh")
-            call("snappyHexMesh -overwrite > log.snappyHexMesh", shell=True)
-            print("Running topoSet")
-            call("topoSet > log.topoSet", shell=True)
-            shutil.copytree("0.org", "0")
-            if parallel:
-                print("Running decomposePar")
-                call("decomposePar > log.decomposePar", shell=True)
-                call("ls -d processor* | xargs -I {} rm -rf ./{}/0", shell=True)
-                call("ls -d processor* | xargs -I {} cp -r 0.org ./{}/0",
-                     shell=True)
-            print("Running pimpleFoam")
-            run_solver(parallel=parallel)
-        else:
-            print("Running pimpleFoam")
-            run_solver(parallel=parallel)
-        os.rename("log.pimpleFoam", "log.pimpleFoam." + str(p))
-        log_perf(param=param, append=True)
-    # Set parameters back to defaults
-    if param == "tsr":
-        set_tsr(1.9)
-        set_tsr_fluc(0.0)
-        set_dt()
-    elif param == "nx":
-        set_blockmesh_resolution()
-    elif param == "dt":
-        set_dt()
+        args = kwargs.copy()
+        args[param] = p
+        run_cactus(overwrite=True, **args)
+        log_perf(fpath=fpath)
 
 
 if __name__ == "__main__":
@@ -161,10 +114,6 @@ if __name__ == "__main__":
                         help="Tip speed ratio")
     parser.add_argument("--param-sweep", "-p", nargs=4,
                         help="Run parameter sweep [name] [start] [stop] [step]")
-    parser.add_argument("--tsr-range", "-T", type=float, nargs=3,
-                        help="TSR range: start, stop (non-inclusive), step")
-    parser.add_argument("--tsr-list", type=float, nargs="+",
-                        help="TSR list")
     parser.add_argument("--dynamic-stall", "-d", default=2, type=int,
                         help="Dynamic stall model", choices=[0, 1, 2])
     parser.add_argument("--u-infty", "-U", type=float, default=1.0,
@@ -180,15 +129,17 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.tsr_range or args.tsr_list:
-        if args.tsr_range:
-            start, stop, step = args.tsr_range
-            tsr_list = np.arange(start, stop, step)
+    if args.param_sweep:
+        name, start, stop, step = args.param_sweep
+        if name in ["nti", "nbelem"]:
+            dtype = int
         else:
-            tsr_list = args.tsr_list
-        tsr_sweep(tsr_list, append=args.append, overwrite=args.overwrite,
-                  dynamic_stall=args.dynamic_stall, u_infty=args.u_infty,
-                  nti=args.nti, nbelem=args.nbelem)
+            dtype = float
+        start, stop, step = dtype(start), dtype(stop), dtype(step)
+        param_sweep(name, start=start, stop=stop, step=step, dtype=dtype,
+                    append=args.append, overwrite=args.overwrite,
+                    dynamic_stall=args.dynamic_stall, u_infty=args.u_infty,
+                    nti=args.nti, nbelem=args.nbelem)
     else:
         run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
                    u_infty=args.u_infty, overwrite=args.overwrite,
