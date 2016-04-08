@@ -28,6 +28,24 @@ def create_geom_file(nbelem=12):
     call("octave -q scripts/makegeom.m {}".format(nbelem), shell=True)
 
 
+def get_param(param="nti", dtype=float):
+    """Get parameter value by reading input file."""
+    with open("config/RM2.in") as f:
+        for line in f:
+            line = line.lower()
+            if param in line and "=" in line:
+                return dtype(line.replace("=", " ").split()[1])
+
+
+def get_nbelem():
+    """Read number of blade elements."""
+    with open("config/RM2.geom") as f:
+        for line in f:
+            line = line.lower()
+            if "nelem" in line:
+                return int(line.split()[1])
+
+
 def run_cactus(tsr=3.1, nbelem=12, overwrite=False, **kwargs):
     """Run CACTUS and write output to `cactus.log`."""
     if not os.path.isfile("cactus.log") or overwrite:
@@ -47,15 +65,22 @@ def run_cactus(tsr=3.1, nbelem=12, overwrite=False, **kwargs):
 
 def log_perf(fpath="results/tsr_sweep.csv"):
     """Log mean performance from last revolution."""
-    tsr = pd.read_csv("results/RM2_Param.csv")["TSR (-)"].iloc[0]
+    params = pd.read_csv("results/RM2_Param.csv")
+    tsr = params["TSR (-)"].iloc[0]
+    u_infty = params["U (ft/s)"].iloc[0]*0.3048
     run = pd.read_csv("results/RM2_RevData.csv").iloc[-1]
     cp = run["Power Coeff. (-)"]
     cd = run["Fx Coeff. (-)"]
     if os.path.isfile(fpath):
         df = pd.read_csv(fpath)
     else:
-        df = pd.DataFrame(columns=["tsr", "cp", "cd"])
-    df = df.append({"tsr": tsr, "cp": cp, "cd": cd}, ignore_index=True)
+        df = pd.DataFrame(columns=["tsr", "cp", "cd", "u_infty", "dsflag",
+                                   "nti", "nbelem"])
+    d = {"tsr": tsr, "cp": cp, "cd": cd, "u_infty": u_infty}
+    d["dsflag"] = get_param("dsflag", dtype=int)
+    d["nbelem"] = get_nbelem()
+    d["nti"] = get_param("nti", dtype=int)
+    df = df.append(d, ignore_index=True)
     df.to_csv(fpath, index=False)
 
 
@@ -75,11 +100,67 @@ def tsr_sweep(tsr_list, append=False, overwrite=False, dynamic_stall=2,
         log_perf(fpath=fpath)
 
 
+def param_sweep(param="tsr", start=None, stop=None, step=None, dtype=float,
+                append=False):
+    """Run multiple simulations, varying `quantity`.
+
+    `step` is not included.
+    """
+    print("Running {} sweep".format(param))
+    fpath = "results/{}_sweep.csv".format(param)
+    if not append and os.path.isfile(fpath):
+        os.remove(fpath)
+    param_list = np.arange(start, stop, step, dtype=dtype)
+    for p in param_list:
+        print("Setting {} to {}".format(param, p))
+        if param == "tsr":
+            set_tsr(p)
+            # Set time step to keep steps-per-rev constant
+            set_dt(tsr=p)
+        elif param == "nx":
+            set_blockmesh_resolution(nx=p)
+        elif param == "dt":
+            set_dt(p)
+        if p == param_list[0] or param == "nx":
+            call("./Allclean")
+            print("Running blockMesh")
+            call("blockMesh > log.blockMesh", shell=True)
+            print("Running snappyHexMesh")
+            call("snappyHexMesh -overwrite > log.snappyHexMesh", shell=True)
+            print("Running topoSet")
+            call("topoSet > log.topoSet", shell=True)
+            shutil.copytree("0.org", "0")
+            if parallel:
+                print("Running decomposePar")
+                call("decomposePar > log.decomposePar", shell=True)
+                call("ls -d processor* | xargs -I {} rm -rf ./{}/0", shell=True)
+                call("ls -d processor* | xargs -I {} cp -r 0.org ./{}/0",
+                     shell=True)
+            print("Running pimpleFoam")
+            run_solver(parallel=parallel)
+        else:
+            print("Running pimpleFoam")
+            run_solver(parallel=parallel)
+        os.rename("log.pimpleFoam", "log.pimpleFoam." + str(p))
+        log_perf(param=param, append=True)
+    # Set parameters back to defaults
+    if param == "tsr":
+        set_tsr(1.9)
+        set_tsr_fluc(0.0)
+        set_dt()
+    elif param == "nx":
+        set_blockmesh_resolution()
+    elif param == "dt":
+        set_dt()
+
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run CACTUS for the RM2.")
     parser.add_argument("--tsr", default=3.1, type=float,
                         help="Tip speed ratio")
+    parser.add_argument("--param-sweep", "-p", nargs=4,
+                        help="Run parameter sweep [name] [start] [stop] [step]")
     parser.add_argument("--tsr-range", "-T", type=float, nargs=3,
                         help="TSR range: start, stop (non-inclusive), step")
     parser.add_argument("--tsr-list", type=float, nargs="+",
