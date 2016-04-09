@@ -69,7 +69,8 @@ def log_perf(fpath="results/tsr_sweep.csv"):
     params = pd.read_csv("results/RM2_Param.csv")
     tsr = params["TSR (-)"].iloc[0]
     u_infty = np.round(params["U (ft/s)"].iloc[0]*0.3048, decimals=5)
-    run = pd.read_csv("results/RM2_RevData.csv").iloc[-1]
+    run = pd.read_csv("results/RM2_RevData.csv")
+    run = run.iloc[len(run)//2:].mean()
     cp = run["Power Coeff. (-)"]
     cd = run["Fx Coeff. (-)"]
     if os.path.isfile(fpath):
