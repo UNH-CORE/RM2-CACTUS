@@ -18,9 +18,9 @@
                         ! Measured in rotor radii. (default=10.0)
 
     ! Calculations inputs
-    nr  	 = 12      ! Number of revolutions
+    nr  	 = 8       ! Number of revolutions
     nti 	 = {nti}      ! Time steps per rev
-    convrg	 = 0.02    ! Convergence level for the revolution average power
+    convrg	 = -1      ! Convergence level for the revolution average power
                        ! coefficient.
                        ! Iteration will finish before nr revs if this level is
                        ! hit. Input -1 to skip convergence check (default)
