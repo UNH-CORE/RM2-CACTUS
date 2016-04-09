@@ -53,6 +53,14 @@ Original configuration files (added in
 from Andrew Murphy Wilson (@awilmurph).
 
 
+### Foil data
+
+| File name | Reference |
+|-----------|-----------|
+| `config/NACA_0021.dat` | Sheldahl, R. and Klimas, P. (1981) "Aerodynamic Characteristics of Seven Symmetrical Airfoil Sections Through 180-Degrees Angle of Attack for Use in Aerodynamic Analysis of Vertical Axis Wind Turbines" |
+| `config/foildata/NACA_0021_Gregorek.csv` | Gregorek, G. M.; Hoffman, M. J. and Berchak, M. J. (1989) "Steady state and oscillatory aerodynamic characteristics of a NACA 0021 airfoil" |
+
+
 ## License
 
 Code licensed under the MIT license. See `LICENSE` for details.
