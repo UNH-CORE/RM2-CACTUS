@@ -82,6 +82,32 @@ def plot_verification(save=False):
         fig.savefig("figures/verification.pdf")
 
 
+def plot_foildata(save=False):
+    """Plot static foil data for comparison."""
+    fig, ax = plt.subplots(figsize=(7.5, 3.25), nrows=1, ncols=2)
+    data = {"Gregorek": pd.read_csv("config/foildata/NACA_0021_Gregorek.csv"),
+            "Sheldahl": pd.read_csv("config/foildata/"
+                                    "NACA_0021_Sheldahl_1.5e6.csv")}
+    for d, m in zip(["Gregorek", "Sheldahl"], ["o", "^"]):
+        df = data[d]
+        if d == "Sheldahl":
+            df = df[df.alpha_deg >= -2]
+            df = df[df.alpha_deg <= 45]
+            df["alpha"] = df.alpha_deg
+        elif d == "Gregorek":
+            df["cd"] = df.cd_wake
+        df = df.sort_values(by="alpha")
+        ax[0].plot(df.alpha, df.cl, marker=m, label=d)
+        ax[1].plot(df.alpha, df.cd, marker=m, label=d)
+    [a.set_xlabel(r"$\alpha$ (degrees)") for a in ax]
+    ax[0].set_ylabel("$C_l$")
+    ax[1].set_ylabel("$C_d$")
+    ax[0].legend(loc="lower right")
+    fig.tight_layout()
+    if save:
+        fig.savefig("figures/foil-data.pdf")
+
+
 if __name__ == "__main__":
     set_sns()
     plt.rcParams["axes.grid"] = True
@@ -89,7 +115,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate plots.")
     parser.add_argument("plot", nargs="*", help="What to plot", default="perf",
                         choices=["perf", "perf-curves", "perf-curves-exp",
-                                 "verification"])
+                                 "verification", "foil-data"])
     parser.add_argument("--all", "-A", help="Generate all figures",
                         default=False, action="store_true")
     parser.add_argument("--save", "-s", help="Save to `figures` directory",
@@ -112,6 +138,8 @@ if __name__ == "__main__":
         plot_perf_curves(exp=True, save=args.save)
     if "verification" in args.plot or args.all:
         plot_verification(save=args.save)
+    if "foil-data" in args.plot or args.all:
+        plot_foildata(save=args.save)
 
     if not args.no_show:
         plt.show()
