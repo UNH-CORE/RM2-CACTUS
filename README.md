@@ -57,8 +57,9 @@ from Andrew Murphy Wilson (@awilmurph).
 
 | File name | Reference |
 |-----------|-----------|
-| `config/NACA_0021.dat` | Sheldahl, R. and Klimas, P. (1981) "Aerodynamic Characteristics of Seven Symmetrical Airfoil Sections Through 180-Degrees Angle of Attack for Use in Aerodynamic Analysis of Vertical Axis Wind Turbines" |
-| `config/foildata/NACA_0021_Gregorek.csv` | Gregorek, G. M.; Hoffman, M. J. and Berchak, M. J. (1989) "Steady state and oscillatory aerodynamic characteristics of a NACA 0021 airfoil" |
+| `config/NACA_0021.dat` | Sheldahl, R. and Klimas, P. (1981) "Aerodynamic Characteristics of Seven Symmetrical Airfoil Sections Through 180-Degrees Angle of Attack for Use in Aerodynamic Analysis of Vertical Axis Wind Turbines". |
+| `config/foildata/NACA_0021_Gregorek.csv` | Static data from Gregorek, G. M.; Hoffman, M. J. and Berchak, M. J. (1989) "Steady state and oscillatory aerodynamic characteristics of a NACA 0021 airfoil". Reynolds number values are divided by 1 million. |
+| `config/foildata/NACA_0021_Jacobs_1.5e6.csv` | Lift coefficient data manually digitized from Jacobs (1932) "The aerodynamic characteristics of eight very thick airfoils from tests in the variable density wind tunnel". |
 
 
 ## License

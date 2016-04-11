@@ -87,10 +87,12 @@ def plot_foildata(save=False):
     fig, ax = plt.subplots(figsize=(7.5, 3.25), nrows=1, ncols=2)
     data = {"Gregorek": pd.read_csv("config/foildata/NACA_0021_Gregorek.csv"),
             "Sheldahl": pd.read_csv("config/foildata/"
-                                    "NACA_0021_Sheldahl_1.5e6.csv")}
-    for d, m in zip(["Gregorek", "Sheldahl"], ["o", "^"]):
+                                    "NACA_0021_Sheldahl_1.5e6.csv"),
+            "Jacobs": pd.read_csv("config/foildata/"
+                                  "NACA_0021_Jacobs_1.5e6.csv")}
+    for d, m in zip(["Gregorek", "Sheldahl", "Jacobs"], ["o", "^", "s"]):
         df = data[d]
-        if d == "Sheldahl":
+        if d == "Sheldahl" or d == "Jacobs":
             df = df[df.alpha_deg >= -2]
             df = df[df.alpha_deg <= 45]
             df["alpha"] = df.alpha_deg
