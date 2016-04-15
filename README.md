@@ -13,9 +13,17 @@ Runs are automated and post-processed with Python. It is recommended users
 download and install the
 [Anaconda Python distribution](http://continuum.io/downloads) (3.5).
 
-To download and compile CACTUS, initialize the submodules, then run
+To download and compile CACTUS and related tools along with this repo, execute
+
+    git clone https://github.com/petebachant/RM2-CACTUS.git --recursive
+
+then run
 
     ./scripts/make-cactus.sh
+
+Note that if this repo was cloned without the `--recursive` option, the submdules can be cloned with 
+
+    git submodule update --init --recursive
 
 
 ## Usage
