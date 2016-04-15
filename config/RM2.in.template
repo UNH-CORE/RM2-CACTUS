@@ -95,19 +95,19 @@
 
     ! Optional outputs
     DiagOutFlag   = 1
-    Output_ELFlag = 0 ! Output full detail element loads .csv file
-    Output_DSFlag = 0
+    BladeElemOutFlag = 0 ! Output full detail element loads .csv file
+    DynStallOutFlag = 0
     WallOutFlag   = 0 ! Output wall panel data
 
     ! Configure Wake Outputs
-    WakeElementOutFlag = 1 ! Output wake element locations
-    WakeElementOutIntervalTimesteps = 5
-    WakeElementOutStartTimestep = 450
-    WakeElementOutEndTimestep = -1
-    WakeGridOutFlag = 1 ! Output induced velocity on a 3-D Cartesian grid
-    WakeGridOutIntervalTimesteps = 5
-    WakeGridOutStartTimestep = 450
-    WakeGridOutEndTimestep = -1
+    WakeElemOutFlag = 1 ! Output wake element locations
+    WakeElemOutIntervalTimesteps = 5
+    WakeElemOutStartTimestep = 450
+    WakeElemOutEndTimestep = -1
+    FieldOutFlag = 1 ! Output induced velocity on a 3-D Cartesian grid
+    FieldOutIntervalTimesteps = 5
+    FieldOutStartTimestep = 450
+    FieldOutEndTimestep = -1
 
     nxgrid = 50
     nygrid = 50
