@@ -51,25 +51,20 @@ def run_cactus(tsr=3.1, nbelem=12, overwrite=False, **kwargs):
     if not os.path.isfile("cactus.log") or overwrite:
         create_geom_file(nbelem)
         create_input_file(tsr=tsr, **kwargs)
-        if not os.path.isdir("results"):
-            os.mkdir("results")
-        start_dir = os.getcwd()
-        os.chdir("results")
         print("Running CACTUS for TSR={}".format(tsr))
-        call("../cactus/bin/cactus ../config/RM2.in > ../cactus.log",
+        call("./cactus/bin/cactus ./config/RM2.in > ./cactus.log",
              shell=True)
-        os.chdir(start_dir)
     else:
         sys.exit("Simulation results present; use ./clean.sh to remove "
                  "or -f to overwrite")
 
 
-def log_perf(fpath="results/tsr_sweep.csv"):
+def log_perf(fpath="processed/tsr_sweep.csv"):
     """Log mean performance from last revolution."""
-    params = pd.read_csv("results/RM2_Param.csv")
+    params = pd.read_csv("output/RM2_Param.csv")
     tsr = params["TSR (-)"].iloc[0]
     u_infty = np.round(params["U (ft/s)"].iloc[0]*0.3048, decimals=5)
-    run = pd.read_csv("results/RM2_RevData.csv")
+    run = pd.read_csv("output/RM2_RevData.csv")
     run = run.iloc[len(run)//2:].mean()
     cp = run["Power Coeff. (-)"]
     cd = run["Fx Coeff. (-)"]
@@ -94,7 +89,7 @@ def param_sweep(param="tsr", start=None, stop=None, step=None, dtype=float,
     `step` is not included.
     """
     print("Running {} sweep".format(param))
-    fpath = "results/{}_sweep.csv".format(param)
+    fpath = "processed/{}_sweep.csv".format(param)
     if os.path.isfile(fpath):
         if not overwrite and not append:
             sys.exit("{} sweep results present; remove, --append, or "

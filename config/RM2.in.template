@@ -79,11 +79,11 @@
     tower_CD = 1.0
 
     ! Geometry file
-    GeomFilePath='../config/RM2.geom'
+    GeomFilePath='./config/RM2.geom'
 
     ! Airfoil section data
     nSect 	= 1
-    AFDPath	= '../config/NACA_0021.dat'
+    AFDPath	= './config/NACA_0021.dat'
 
     ! Other parameters
     CDPar   = 0

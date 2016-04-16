@@ -17,7 +17,7 @@ def clean_column_names(df):
 
 
 def load_timedata():
-    df = pd.read_csv("results/RM2_TimeData.csv")
+    df = pd.read_csv("output/RM2_TimeData.csv")
     df = clean_column_names(df)
     df["theta_deg"] = np.rad2deg(df.theta_rad)
     return df
@@ -43,7 +43,7 @@ def plot_perf(print_perf=True, save=False):
 def plot_perf_curves(exp=False, save=False):
     """Plot performance curves."""
     fig, ax = plt.subplots(figsize=(7.5, 3), nrows=1, ncols=2)
-    df = pd.read_csv("results/tsr_sweep.csv")
+    df = pd.read_csv("processed/tsr_sweep.csv")
     ax[0].plot(df.tsr, df.cp, marker="o", label="CACTUS")
     ax[1].plot(df.tsr, df.cd, marker="o", label="CACTUS")
     ax[0].set_ylabel("$C_P$")
@@ -70,10 +70,10 @@ def plot_perf_curves(exp=False, save=False):
 def plot_verification(save=False):
     """Plot the sensitivity to time step and number of blade elements."""
     fig, ax = plt.subplots(figsize=(7.5, 3), nrows=1, ncols=2)
-    df = pd.read_csv("results/nti_sweep.csv")
+    df = pd.read_csv("processed/nti_sweep.csv")
     ax[0].plot(df.nti, df.cp, marker="o")
     ax[0].set_xlabel("Time steps per rev.")
-    df = pd.read_csv("results/nbelem_sweep.csv")
+    df = pd.read_csv("processed/nbelem_sweep.csv")
     ax[1].plot(df.nbelem, df.cp, marker="o")
     ax[1].set_xlabel("Elements per blade")
     [a.set_ylabel("$C_P$") for a in ax]

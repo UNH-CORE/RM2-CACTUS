@@ -62,7 +62,8 @@ target/
 .ipynb_checkpoints
 
 # Output files
-results
+processed
+output
 *.log
 
 # Automatically generated input and geometry files
