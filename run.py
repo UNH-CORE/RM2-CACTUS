@@ -51,6 +51,7 @@ def run_cactus(tsr=3.1, nbelem=12, overwrite=False, **kwargs):
     if not os.path.isfile("cactus.log") or overwrite:
         create_geom_file(nbelem)
         create_input_file(tsr=tsr, **kwargs)
+        call("./clean.sh")
         print("Running CACTUS for TSR={}".format(tsr))
         call("./cactus/bin/cactus ./config/RM2.in > ./cactus.log",
              shell=True)
