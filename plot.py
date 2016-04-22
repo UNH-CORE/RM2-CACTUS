@@ -39,6 +39,7 @@ def plot_perf(print_perf=True, save=False):
     fig.tight_layout()
     if save:
         fig.savefig("figures/perf.pdf")
+        fig.savefig("figures/perf.png", dpi=300)
 
 
 def plot_perf_curves(exp=False, save=False):
@@ -66,6 +67,7 @@ def plot_perf_curves(exp=False, save=False):
     fig.tight_layout()
     if save:
         fig.savefig("figures/perf-curves.pdf")
+        fig.savefig("figures/perf-curves.png", dpi=300)
 
 
 def plot_verification(save=False):
@@ -87,6 +89,7 @@ def plot_verification(save=False):
     fig.tight_layout()
     if save:
         fig.savefig("figures/verification.pdf")
+        fig.savefig("figures/verification.png", dpi=300)
 
 
 def plot_foildata(save=False):
@@ -115,6 +118,7 @@ def plot_foildata(save=False):
     fig.tight_layout()
     if save:
         fig.savefig("figures/foil-data.pdf")
+        fig.savefig("figures/foil-data.png", dpi=300)
 
 
 if __name__ == "__main__":
