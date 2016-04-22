@@ -69,6 +69,9 @@ def log_perf(fpath="processed/tsr_sweep.csv"):
     run = run.iloc[len(run)//2:].mean()
     cp = run["Power Coeff. (-)"]
     cd = run["Fx Coeff. (-)"]
+    savedir = os.path.split(fpath)[0]
+    if not os.path.isdir(savedir):
+        os.makedirs(savedir)
     if os.path.isfile(fpath):
         df = pd.read_csv(fpath)
     else:
