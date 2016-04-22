@@ -70,12 +70,18 @@ def plot_perf_curves(exp=False, save=False):
 def plot_verification(save=False):
     """Plot the sensitivity to time step and number of blade elements."""
     fig, ax = plt.subplots(figsize=(7.5, 3), nrows=1, ncols=2)
-    df = pd.read_csv("processed/nti_sweep.csv")
-    ax[0].plot(df.nti, df.cp, marker="o")
-    ax[0].set_xlabel("Time steps per rev.")
-    df = pd.read_csv("processed/nbelem_sweep.csv")
-    ax[1].plot(df.nbelem, df.cp, marker="o")
-    ax[1].set_xlabel("Elements per blade")
+    try:
+        df = pd.read_csv("processed/nti_sweep.csv")
+        ax[0].plot(df.nti, df.cp, marker="o")
+        ax[0].set_xlabel("Time steps per rev.")
+    except OSError:
+        print("No nti sweep file found")
+    try:
+        df = pd.read_csv("processed/nbelem_sweep.csv")
+        ax[1].plot(df.nbelem, df.cp, marker="o")
+        ax[1].set_xlabel("Elements per blade")
+    except OSError:
+        print("No nbelem sweep file found")
     [a.set_ylabel("$C_P$") for a in ax]
     fig.tight_layout()
     if save:
