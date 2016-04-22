@@ -122,7 +122,7 @@ if __name__ == "__main__":
                         help="Free stream velocity in m/s")
     parser.add_argument("--nti", "-n", type=int, default=24,
                         help="Time steps per rev")
-    parser.add_argument("--nbelem", "-e", type=int, default=12,
+    parser.add_argument("--nbelem", "-e", type=int, default=16,
                         help="Number of elements per blade")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
