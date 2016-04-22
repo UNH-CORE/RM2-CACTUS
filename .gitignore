@@ -62,7 +62,6 @@ target/
 .ipynb_checkpoints
 
 # Output files
-processed
 output
 *.log
 
