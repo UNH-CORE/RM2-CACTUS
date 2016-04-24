@@ -70,3 +70,5 @@ config/RM2.in
 config/RM2.geom
 
 *.pdf
+
+figures
