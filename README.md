@@ -21,7 +21,7 @@ then run
 
     ./scripts/make-cactus.sh
 
-Note that if this repo was cloned without the `--recursive` option, the submdules can be cloned with 
+Note that if this repo was cloned without the `--recursive` option, the submdules can be cloned with
 
     git submodule update --init --recursive
 
@@ -43,7 +43,7 @@ Run at a single tip speed ratio without dynamic stall:
 
 Calculate turbine performance curve:
 
-    python run.py -p tsr 1.1 5.2 0.5
+    python run.py -p tsr 1.1 4.7 0.5
 
 Run time step dependence parameter sweep:
 
