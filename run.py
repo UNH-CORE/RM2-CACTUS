@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from __future__ import division, print_function
-from subprocess import call
+from subprocess import call, check_output
 import os
 import sys
 import numpy as np
@@ -35,6 +35,16 @@ def get_param(param="nti", dtype=float):
             line = line.lower()
             if param in line and "=" in line:
                 return dtype(line.replace("=", " ").split()[1])
+
+
+def cpu_hrs_per_sec(cores=4, tsr=3.1, revs=8, U_infty=1.0):
+    """Compute CPU hours per simulated second metric."""
+    omega = tsr*U_infty/R
+    wall_time = check_output("tail cactus.log -n10 | grep Total", shell=True)
+    wall_time = float(wall_time.decode().split()[-1])
+    revs_per_second = omega/(2*np.pi)
+    total_seconds = revs/revs_per_second
+    return cores*(wall_time/3600)/(total_seconds)
 
 
 def get_nbelem():
