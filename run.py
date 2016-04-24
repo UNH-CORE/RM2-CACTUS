@@ -6,6 +6,7 @@ import os
 import sys
 import numpy as np
 import pandas as pd
+from multiprocessing import cpu_count
 
 
 R = 0.5375
@@ -37,13 +38,17 @@ def get_param(param="nti", dtype=float):
                 return dtype(line.replace("=", " ").split()[1])
 
 
-def cpu_hrs_per_sec(cores=4, tsr=3.1, revs=8, U_infty=1.0):
+def cpu_hrs_per_sec(hyperthreading=True, tsr=3.1, u_infty=1.0, nrevs=8):
     """Compute CPU hours per simulated second metric."""
-    omega = tsr*U_infty/R
+    cores = cpu_count()
+    # If hyperthreading is enabled, it may not be fair to count all "cores"
+    if hyperthreading:
+        cores /= 2
+    omega = tsr*u_infty/R
     wall_time = check_output("tail cactus.log -n10 | grep Total", shell=True)
     wall_time = float(wall_time.decode().split()[-1])
     revs_per_second = omega/(2*np.pi)
-    total_seconds = revs/revs_per_second
+    total_seconds = nrevs/revs_per_second
     return cores*(wall_time/3600)/(total_seconds)
 
 
@@ -86,12 +91,14 @@ def log_perf(fpath="processed/tsr_sweep.csv"):
         df = pd.read_csv(fpath)
     else:
         df = pd.DataFrame(columns=["tsr", "cp", "cd", "u_infty", "dsflag",
-                                   "nti", "nbelem", "nrevs"])
+                                   "nti", "nbelem", "nrevs", "cpu_hrs_per_sec"])
     d = {"tsr": tsr, "cp": cp, "cd": cd, "u_infty": u_infty}
     d["dsflag"] = get_param("dsflag", dtype=int)
     d["nbelem"] = get_nbelem()
     d["nti"] = get_param("nti", dtype=int)
     d["nrevs"] = int(run["Rev"])
+    d["cpu_hrs_per_sec"] = cpu_hrs_per_sec(tsr=tsr, u_infty=u_infty,
+                                           nrevs=d["nrevs"])
     df = df.append(d, ignore_index=True)
     df.to_csv(fpath, index=False)
 
