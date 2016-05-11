@@ -4,7 +4,8 @@ This repository contains configuration files and scripts for modeling the
 DOE/Sandia RM2 cross-flow turbine with [CACTUS](http://energy.sandia.gov/energy
 /renewable-energy/wind-power/wind-resources/wind-software-downloads/cactus-
 software-download/). Note that the simulation may require an unreleased,
-non-backwards-compatible version of CACTUS.
+non-backwards-compatible version of CACTUS, as indicated by the `cactus`
+submodule.
 
 
 ## Getting started
@@ -12,6 +13,11 @@ non-backwards-compatible version of CACTUS.
 Runs are automated and post-processed with Python. It is recommended users
 download and install the
 [Anaconda Python distribution](http://continuum.io/downloads) (3.5).
+
+This project has been mostly run on Linux. On an Ubuntu-like system, all
+non-Python dependencies can be installed with
+
+    sudo apt-get install gfortran libblas-dev liblapack-dev octave
 
 To download and compile CACTUS and related tools along with this repo, execute
 
@@ -21,9 +27,15 @@ then run
 
     ./scripts/make-cactus.sh
 
-Note that if this repo was cloned without the `--recursive` option, the submdules can be cloned with
+Note that if this repo was cloned without the `--recursive` option, the
+submdules can be cloned with
 
     git submodule update --init --recursive
+
+One additional Python plotting dependency (beyond Anaconda) can be installed
+with
+
+    pip install pxl
 
 
 ## Usage
