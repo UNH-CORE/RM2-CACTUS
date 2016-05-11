@@ -4,7 +4,7 @@
     RegTFlag = 0
 
     ! Wall calculation
-    GPFlag   = 1        ! Use ground plane (default=0)
+    GPFlag   = 0        ! Use ground plane (default=0)
     ! FSFlag   = 1      ! Free surface (default=0)
     ! SWFlag   = 1      ! Unknown
     ! SWFlag2   = 1     ! Unknown
@@ -16,6 +16,7 @@
     GPGridExtent = 1.52 ! Distance the ground plane will extend from the
                         ! turbine location.
                         ! Measured in rotor radii. (default=10.0)
+    WPFlag   = 1        ! Use walls
 
     ! Calculations inputs
     nr  	 = 8       ! Number of revolutions
@@ -84,6 +85,9 @@
     ! Airfoil section data
     nSect 	= 1
     AFDPath	= './config/NACA_0021.dat'
+
+    ! Wall mesh
+    WallMeshPath = './config/walls.xyz'
 
     ! Other parameters
     CDPar   = 0
