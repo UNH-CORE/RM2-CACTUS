@@ -162,8 +162,8 @@ if __name__ == "__main__":
 
     # Relative position of turbine center
     x_center = L/2 # m
-    y_center = W/2 # m
-    z_center = H/2 # m
+    y_center = H/2 # m
+    z_center = W/2 # m
 
     p_rel = np.array([x_center, y_center, z_center])
 
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     R = 0.5375
 
     # transform to center at hub, N.D. by R
-    for key,coord in coords.items():
+    for key, coord in coords.items():
         coords[key] = (coord - p_rel)/R
 
     # specify desired spacing for the quads
