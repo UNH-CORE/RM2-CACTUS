@@ -34,7 +34,7 @@ def get_param(param="nti", dtype=float):
     with open("config/RM2.in") as f:
         for line in f:
             line = line.lower()
-            if param in line and "=" in line:
+            if param.lower() in line and "=" in line:
                 return dtype(line.replace("=", " ").split()[1])
 
 
@@ -91,12 +91,14 @@ def log_perf(fpath="processed/tsr_sweep.csv"):
         df = pd.read_csv(fpath)
     else:
         df = pd.DataFrame(columns=["tsr", "cp", "cd", "u_infty", "dsflag",
-                                   "nti", "nbelem", "nrevs", "cpu_hrs_per_sec"])
+                                   "nti", "nbelem", "nrevs", "walls",
+                                   "cpu_hrs_per_sec"])
     d = {"tsr": tsr, "cp": cp, "cd": cd, "u_infty": u_infty}
     d["dsflag"] = get_param("dsflag", dtype=int)
     d["nbelem"] = get_nbelem()
     d["nti"] = get_param("nti", dtype=int)
     d["nrevs"] = int(run["Rev"])
+    d["walls"] = get_param("WPFlag", dtype=int)
     d["cpu_hrs_per_sec"] = cpu_hrs_per_sec(tsr=tsr, u_infty=u_infty,
                                            nrevs=d["nrevs"])
     df = df.append(d, ignore_index=True)
