@@ -143,6 +143,8 @@ if __name__ == "__main__":
     H = 2.44
     L = 10.0
 
+    print("Creating walls with W={} H={}, L={}".format(W, H, L))
+
     coords = {0: np.array([0, 0, W]),
               1: np.array([0, H, W]),
               2: np.array([L, H, W]),
