@@ -139,6 +139,7 @@ def quad_nxny_from_ds(quadcoords, ds1max, ds2max=None):
 
 
 if __name__ == "__main__":
+    # Wall dimensions in meters
     W = 3.66
     H = 2.44
     L = 10.0
@@ -166,7 +167,7 @@ if __name__ == "__main__":
 
     p_rel = np.array([x_center, y_center, z_center])
 
-    # Turbine radius
+    # Turbine radius in meters
     R = 0.5375
 
     # transform to center at hub, N.D. by R
@@ -216,5 +217,5 @@ if __name__ == "__main__":
         ys.append(y)
         zs.append(z)
 
-    coords = [(x,y,z) for x,y,z in zip(xs,ys,zs)]
+    coords = [(x, y, z) for x, y, z in zip(xs, ys, zs)]
     write_to_p3d_multi(coords, './config/walls.xyz')
