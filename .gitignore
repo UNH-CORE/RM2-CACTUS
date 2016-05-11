@@ -72,3 +72,4 @@ config/RM2.geom
 *.pdf
 
 figures
+config/walls.xyz
