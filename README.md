@@ -59,11 +59,11 @@ Calculate turbine performance curve:
 
 Run time step dependence parameter sweep:
 
-    python run.py -p nti 8 57 8
+    python run.py -p nti 8 65 4
 
 Run parameter sweep for number of blade elements:
 
-    python run.py -p nbelem 6 19 2
+    python run.py -p nbelem 4 65 4
 
 
 ## Acknowledgements
