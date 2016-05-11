@@ -58,7 +58,9 @@ Run parameter sweep for number of blade elements:
 
 Original configuration files (added in
 [`e42f3ad3`](https://github.com/petebachant/RM2-CACTUS/commit/e42f3ad36f224e5e59e2d13fc2a9224a132c962b))
-from Andrew Murphy Wilson (@awilmurph).
+from Andrew Murphy Wilson (@awilmurph). The script for creating the wall mesh
+(`./scripts/makewalls.py`) was based on one by Phillip Chiu (@whophil), who
+implemented the wall panels in CACTUS.
 
 
 ### Foil data
