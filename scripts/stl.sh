@@ -5,6 +5,7 @@
 CAD_ZIP=figures/cad.zip
 STL=figures/turbine.stl
 STL_Y_UP=figures/turbine-y-up.stl
+R_INV=1.86 # 1/R
 
 # Download zip of CAD files if doesn't exist
 if [ ! -f $CAD_ZIP ]
@@ -19,8 +20,10 @@ then
     mv figures/turbine.STL $STL
 fi
 
-# Rotate turbine into y-up coordinate system (requires OpenFOAM)
+# Rotate turbine into y-up coordinate system and scale by radius
+# (requires OpenFOAM)
 if [ ! -f $STL_Y_UP ]
 then
-    surfaceTransformPoints -rollPitchYaw "(-90 0 0)" figures/turbine.stl figures/turbine-y-up.stl
+    surfaceTransformPoints -rollPitchYaw "(-90 0 0)" $STL $STL_Y_UP
+    surfaceTransformPoints -scale "($R_INV $R_INV $R_INV)" $STL_Y_UP $STL_Y_UP
 fi
