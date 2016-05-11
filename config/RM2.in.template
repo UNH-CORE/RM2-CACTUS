@@ -74,10 +74,10 @@
     itower  = 1        ! Switch to activate tower wake model
     tower_Npts = 10
     tower_x = 0
-    tower_ybot = 0
-    tower_ytop = 1.5008
+    tower_ybot = -1.23
+    tower_ytop = 1.23
     tower_D = 0.1181
-    tower_CD = 1.0
+    tower_CD = 1.1
 
     ! Geometry file
     GeomFilePath='./config/RM2.geom'
