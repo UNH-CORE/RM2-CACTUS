@@ -5,10 +5,11 @@ Adapted from work by Phillip Chiu, Sandia National Labs, August 25, 2015:
 https://gist.github.com/whophil/e5405071a143b38aa4d64dbcd4acef3a
 """
 
+from __future__ import division, print_function
 import os
 import numpy as np
 import math
-from __future__ import print_function
+import sys
 
 
 def gen_quad_grid(a, b, c, d, n1, n2):
@@ -38,7 +39,7 @@ def gen_quad_grid(a, b, c, d, n1, n2):
 
     # check if four corners of quadrilater are coplanar
     if np.linalg.det(np.vstack([b - a, c - a, d - a])) != 0:
-        print 'Error, points are not collinear.'
+        print('Error, points are not collinear.')
         return
 
     # allocate storage for plane (since this is a plane, n3 = 1 always)
@@ -83,18 +84,18 @@ def write_to_p3d_multi(coords, p3d_filename):
 
     with open(p3d_filename, 'w') as f:
         # write number of blocks
-        print >> f, num_blocks
+        f.write(str(num_blocks) + "\n")
 
         # write block dimensions
         for nbi, (x, y, z) in enumerate(coords):
             if x.shape != y.shape or y.shape != z.shape:
-                print 'Error: X,Y,Z are different shape!.'
-                return
+                print('Error: X,Y,Z are different shape!')
+                sys.exit()
 
             nx, ny, nz = x.shape
             size[nbi] = nx*ny*nz
 
-            print >> f, nx, ny, nz
+            f.write("{} {} {}\n".format(nx, ny, nz))
 
         # write block cordinates
         for nbi, (x, y, z) in enumerate(coords):
@@ -103,11 +104,11 @@ def write_to_p3d_multi(coords, p3d_filename):
             z = z.T
 
             for i in range(size[nbi]):
-                print >>f, x.item(i)
+                f.write(str(x.item(i)) + "\n")
             for i in range(size[nbi]):
-                print >>f, y.item(i)
+                f.write(str(y.item(i)) + "\n")
             for i in range(size[nbi]):
-                print >>f, z.item(i)
+                f.write(str(z.item(i)) + "\n")
 
 
 def quad_nxny_from_ds(quadcoords, ds1max, ds2max=None):
@@ -134,7 +135,7 @@ def quad_nxny_from_ds(quadcoords, ds1max, ds2max=None):
     n1 = int(max([A,C])/ds1max) + 1
     n2 = int(max([B,D])/ds2max) + 1
 
-    return n1,n2
+    return n1, n2
 
 
 if __name__ == "__main__":
@@ -142,14 +143,14 @@ if __name__ == "__main__":
     H = 2.44
     L = 10.0
 
-    coords = {0: np.array([0,0,W]),
-              1: np.array([0,H,W]),
-              2: np.array([L,H,W]),
-              3: np.array([L,0,W]),
-              4: np.array([0,0,0]),
-              5: np.array([0,H,0]),
-              6: np.array([L,H,0]),
-              7: np.array([L,0,0])}
+    coords = {0: np.array([0, 0, W]),
+              1: np.array([0, H, W]),
+              2: np.array([L, H, W]),
+              3: np.array([L, 0, W]),
+              4: np.array([0, 0, 0]),
+              5: np.array([0, H, 0]),
+              6: np.array([L, H, 0]),
+              7: np.array([L, 0, 0])}
 
     quads = {'right': (0,1,2,3),
              'top': (1,5,6,2),
@@ -167,7 +168,7 @@ if __name__ == "__main__":
     R = 0.5375
 
     # transform to center at hub, N.D. by R
-    for key,coord in coords.iteritems():
+    for key,coord in coords.items():
         coords[key] = (coord - p_rel)/R
 
     # specify desired spacing for the quads
@@ -179,7 +180,7 @@ if __name__ == "__main__":
     n = {}
 
     # loop through the quads
-    for quad_name, quad_node_ids in quads.iteritems():
+    for quad_name, quad_node_ids in quads.items():
         # get the coordinates of the four corners and put them into a list
         quad_coords = [coords[node_id] for node_id in quad_node_ids]
 
@@ -193,7 +194,7 @@ if __name__ == "__main__":
     zs = []
 
     # generate a mesh for all the points
-    for quad_name, quad_node_ids in quads.iteritems():
+    for quad_name, quad_node_ids in quads.items():
         # get the coordinates of the four corners and put them into a list
         quad_coords = [coords[node_id] for node_id in quad_node_ids]
 
@@ -214,4 +215,4 @@ if __name__ == "__main__":
         zs.append(z)
 
     coords = [(x,y,z) for x,y,z in zip(xs,ys,zs)]
-    write_to_p3d_multi(coords, nb_dir + 'easy_tunnel.xyz')
+    write_to_p3d_multi(coords, './config/walls.xyz')
