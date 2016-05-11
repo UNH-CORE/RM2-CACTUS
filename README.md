@@ -66,6 +66,12 @@ Run parameter sweep for number of blade elements:
     python run.py -p nbelem 4 65 4
 
 
+### Viewing walls
+
+Open `config/walls.xyz` in ParaView using the "Auto Detect Format" and "Multi
+Grid" options only.
+
+
 ## Acknowledgements
 
 Original configuration files (added in
