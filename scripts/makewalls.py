@@ -39,7 +39,7 @@ def gen_quad_grid(a, b, c, d, n1, n2):
 
     # check if four corners of quadrilater are coplanar
     if np.linalg.det(np.vstack([b - a, c - a, d - a])) != 0:
-        print('Error, points are not collinear.')
+        print("Error, points are not collinear.")
         return
 
     # allocate storage for plane (since this is a plane, n3 = 1 always)
@@ -82,14 +82,14 @@ def write_to_p3d_multi(coords, p3d_filename):
     # allocate storage
     size = np.zeros(num_blocks, dtype=int)
 
-    with open(p3d_filename, 'w') as f:
+    with open(p3d_filename, "w") as f:
         # write number of blocks
         f.write(str(num_blocks) + "\n")
 
         # write block dimensions
         for nbi, (x, y, z) in enumerate(coords):
             if x.shape != y.shape or y.shape != z.shape:
-                print('Error: X,Y,Z are different shape!')
+                print("Error: X,Y,Z are different shape!")
                 sys.exit()
 
             nx, ny, nz = x.shape
@@ -155,10 +155,10 @@ if __name__ == "__main__":
               6: np.array([L, H, 0]),
               7: np.array([L, 0, 0])}
 
-    quads = {'right': (0,1,2,3),
-             'top': (1,5,6,2),
-             'left': (5,4,7,6),
-             'bottom': (4,0,3,7)}
+    quads = {"right": (0,1,2,3),
+             "top": (1,5,6,2),
+             "left": (5,4,7,6),
+             "bottom": (4,0,3,7)}
 
     # Relative position of turbine center
     x_center = L/2 # m
@@ -175,10 +175,10 @@ if __name__ == "__main__":
         coords[key] = (coord - p_rel)/R
 
     # specify desired spacing for the quads
-    ds_quads = {'right': 0.50,
-                'top': 0.50,
-                'left': 0.50,
-                'bottom': 0.50}
+    ds_quads = {"right": 0.50,
+                "top": 0.50,
+                "left": 0.50,
+                "bottom": 0.50}
 
     n = {}
 
@@ -218,4 +218,4 @@ if __name__ == "__main__":
         zs.append(z)
 
     coords = [(x, y, z) for x, y, z in zip(xs, ys, zs)]
-    write_to_p3d_multi(coords, './config/walls.xyz')
+    write_to_p3d_multi(coords, "./config/walls.xyz")
