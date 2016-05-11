@@ -141,12 +141,17 @@ if __name__ == "__main__":
                         help="Time steps per rev")
     parser.add_argument("--nbelem", "-e", type=int, default=16,
                         help="Number of elements per blade")
+    parser.add_argument("--no-walls", default=False, action="store_true")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
     parser.add_argument("--append", "-a", default=False, action="store_true",
                         help="Append if running multiple TSRs")
 
     args = parser.parse_args()
+
+    walls = not args.no_walls
+    if walls:
+        call(["python", "./scripts/makewalls.py"])
 
     if args.param_sweep:
         name, start, stop, step = args.param_sweep
@@ -158,8 +163,8 @@ if __name__ == "__main__":
         param_sweep(name, start=start, stop=stop, step=step, dtype=dtype,
                     append=args.append, overwrite=args.overwrite,
                     dynamic_stall=args.dynamic_stall, u_infty=args.u_infty,
-                    nti=args.nti, nbelem=args.nbelem)
+                    nti=args.nti, nbelem=args.nbelem, walls=int(walls))
     else:
         run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
                    u_infty=args.u_infty, overwrite=args.overwrite,
-                   nti=args.nti, nbelem=args.nbelem)
+                   nti=args.nti, nbelem=args.nbelem, walls=int(walls))

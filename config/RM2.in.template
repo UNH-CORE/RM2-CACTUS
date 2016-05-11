@@ -16,7 +16,7 @@
     GPGridExtent = 1.52 ! Distance the ground plane will extend from the
                         ! turbine location.
                         ! Measured in rotor radii. (default=10.0)
-    WPFlag   = 1        ! Use walls
+    WPFlag   = {walls}  ! Use walls
 
     ! Calculations inputs
     nr  	 = 8       ! Number of revolutions
