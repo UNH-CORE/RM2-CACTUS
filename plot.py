@@ -24,6 +24,28 @@ def load_timedata():
     return df
 
 
+def load_raw_xfoil_data(Re=1.5e6, alpha_name="alpha_deg"):
+    """Load raw XFOIL data as DataFrame."""
+    fdir = "config/foildata/xfoil-raw"
+    fname = "NACA 0021_T1_Re{:.3f}_M0.00_N9.0.dat".format(Re/1e6)
+    fpath = os.path.join(fdir, fname)
+    alpha_deg = []
+    cl = []
+    cd = []
+    with open(fpath) as f:
+        for n, line in enumerate(f.readlines()):
+            if n >= 14:
+                ls = line.split()
+                alpha_deg.append(float(ls[0]))
+                cl.append(float(ls[1]))
+                cd.append(float(ls[2]))
+    df = pd.DataFrame()
+    df[alpha_name] = alpha_deg
+    df["cl"] = cl
+    df["cd"] = cd
+    return df
+
+
 def plot_perf(print_perf=True, save=False):
     """Plot power coefficient versus azimuthal angle."""
     df = load_timedata()
@@ -99,10 +121,12 @@ def plot_foildata(save=False):
             "Sheldahl": pd.read_csv("config/foildata/"
                                     "NACA_0021_Sheldahl_1.5e6.csv"),
             "Jacobs": pd.read_csv("config/foildata/"
-                                  "NACA_0021_Jacobs_1.5e6.csv")}
-    for d, m in zip(["Gregorek", "Sheldahl", "Jacobs"], ["o", "^", "s"]):
+                                  "NACA_0021_Jacobs_1.5e6.csv"),
+            "XFOIL": load_raw_xfoil_data(Re=1.5e6)}
+    for d, m in zip(["Gregorek", "Sheldahl", "Jacobs", "XFOIL"],
+                    ["o", "^", "s", "x"]):
         df = data[d]
-        if d == "Sheldahl" or d == "Jacobs":
+        if d == "Sheldahl" or d == "Jacobs" or d == "XFOIL":
             df = df[df.alpha_deg >= -2]
             df = df[df.alpha_deg <= 45]
             df["alpha"] = df.alpha_deg
