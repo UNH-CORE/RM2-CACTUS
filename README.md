@@ -65,6 +65,10 @@ Run parameter sweep for number of blade elements:
 
     python run.py -p nbelem 4 65 4
 
+Run parameter sweep for free stream velocity:
+
+    python run.py -p u_infty 0.2 2.1 0.2
+
 
 ### Viewing walls
 
