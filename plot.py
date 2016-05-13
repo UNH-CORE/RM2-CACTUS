@@ -8,6 +8,10 @@ from pxl.styleplot import set_sns
 import os
 import argparse
 
+R = 0.5375
+D = R*2
+nu = 1e-6
+
 
 def clean_column_names(df):
     """Rename CSV column names so they are easier to work with."""
@@ -92,6 +96,37 @@ def plot_perf_curves(exp=False, save=False):
         fig.savefig("figures/perf-curves.png", dpi=300)
 
 
+def plot_perf_re_dep(exp=False, save=False):
+    """Plot Reynolds number dependence of C_P."""
+    fpath = "processed/u_infty_sweep.csv"
+    if os.path.isfile(fpath):
+        df = pd.read_csv(fpath)
+        fig, ax = plt.subplots()
+        df["Re_D"] = df.u_infty*D/nu
+        ax.plot(df.Re_D, df.cp, marker="o", label="CACTUS")
+        ax.set_xlabel("$Re_D$")
+        ax.set_ylabel("$C_P$")
+        if exp:
+            df_exp = pd.read_csv("https://raw.githubusercontent.com/UNH-CORE/"
+                                 "RM2-tow-tank/master/Data/Processed/"
+                                 "Perf-tsr_0.csv")
+            df_exp2 = pd.read_csv("https://raw.githubusercontent.com/UNH-CORE/"
+                                  "RM2-tow-tank/master/Data/Processed/"
+                                  "Perf-tsr_0-b.csv")
+            df_exp = df_exp.append(df_exp2, ignore_index=True)
+            df_exp = df_exp.groupby("tow_speed_nom").mean()
+            df_exp["Re_D"] = df_exp.mean_tow_speed*D/nu
+            ax.plot(df_exp.Re_D, df_exp.mean_cp, color="black", marker="^",
+                    markerfacecolor="none", label="Exp.")
+            ax.legend(loc="lower right")
+        fig.tight_layout()
+        if save:
+            fig.savefig("figures/perf_re_dep.png", dpi=300)
+            fig.savefig("figures/perf_re_dep.pdf")
+    else:
+        return None
+
+
 def plot_verification(save=False):
     """Plot the sensitivity to time step and number of blade elements."""
     fig, ax = plt.subplots(figsize=(7.5, 3), nrows=1, ncols=2)
@@ -148,11 +183,13 @@ def plot_foildata(save=False):
 if __name__ == "__main__":
     set_sns()
     plt.rcParams["axes.grid"] = True
+    plt.rcParams["axes.formatter.use_mathtext"] = True
 
     parser = argparse.ArgumentParser(description="Generate plots.")
     parser.add_argument("plot", nargs="*", help="What to plot", default="perf",
                         choices=["perf", "perf-curves", "perf-curves-exp",
-                                 "verification", "foil-data"])
+                                 "verification", "foil-data", "re-dep",
+                                 "re-dep-exp"])
     parser.add_argument("--all", "-A", help="Generate all figures",
                         default=False, action="store_true")
     parser.add_argument("--save", "-s", help="Save to `figures` directory",
@@ -173,6 +210,10 @@ if __name__ == "__main__":
         plot_perf_curves(exp=False, save=args.save)
     if "perf-curves-exp" in args.plot or args.all:
         plot_perf_curves(exp=True, save=args.save)
+    if "re-dep" in args.plot or args.all:
+        plot_perf_re_dep(save=args.save)
+    if "re-dep-exp" in args.plot or args.all:
+        plot_perf_re_dep(exp=True, save=args.save)
     if "verification" in args.plot or args.all:
         plot_verification(save=args.save)
     if "foil-data" in args.plot or args.all:
