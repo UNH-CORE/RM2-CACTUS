@@ -11,6 +11,7 @@ import argparse
 R = 0.5375
 D = R*2
 nu = 1e-6
+c = (0.04 + 0.06667)/2
 
 
 def clean_column_names(df):
@@ -102,9 +103,9 @@ def plot_perf_re_dep(exp=False, save=False):
     if os.path.isfile(fpath):
         df = pd.read_csv(fpath)
         fig, ax = plt.subplots()
-        df["Re_D"] = df.u_infty*D/nu
-        ax.plot(df.Re_D, df.cp, marker="o", label="CACTUS")
-        ax.set_xlabel("$Re_D$")
+        df["Re_c"] = df.u_infty*c*df.tsr/nu
+        ax.plot(df.Re_c, df.cp, marker="o", label="CACTUS")
+        ax.set_xlabel("$Re_{c,\mathrm{ave}}$")
         ax.set_ylabel("$C_P$")
         if exp:
             df_exp = pd.read_csv("https://raw.githubusercontent.com/UNH-CORE/"
@@ -115,8 +116,8 @@ def plot_perf_re_dep(exp=False, save=False):
                                   "Perf-tsr_0-b.csv")
             df_exp = df_exp.append(df_exp2, ignore_index=True)
             df_exp = df_exp.groupby("tow_speed_nom").mean()
-            df_exp["Re_D"] = df_exp.mean_tow_speed*D/nu
-            ax.plot(df_exp.Re_D, df_exp.mean_cp, color="black", marker="^",
+            df_exp["Re_c"] = df_exp.mean_tow_speed*df_exp.mean_tsr*c/nu
+            ax.plot(df_exp.Re_c, df_exp.mean_cp, color="black", marker="^",
                     markerfacecolor="none", label="Exp.")
             ax.legend(loc="lower right")
         fig.tight_layout()
