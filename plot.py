@@ -184,7 +184,6 @@ def plot_foildata(save=False):
 if __name__ == "__main__":
     set_sns()
     plt.rcParams["axes.grid"] = True
-    plt.rcParams["axes.formatter.use_mathtext"] = True
 
     parser = argparse.ArgumentParser(description="Generate plots.")
     parser.add_argument("plot", nargs="*", help="What to plot", default="perf",
@@ -212,9 +211,11 @@ if __name__ == "__main__":
     if "perf-curves-exp" in args.plot or args.all:
         plot_perf_curves(exp=True, save=args.save)
     if "re-dep" in args.plot or args.all:
-        plot_perf_re_dep(save=args.save)
+        with plt.rc_context(rc={"axes.formatter.use_mathtext": True}):
+            plot_perf_re_dep(save=args.save)
     if "re-dep-exp" in args.plot or args.all:
-        plot_perf_re_dep(exp=True, save=args.save)
+        with plt.rc_context(rc={"axes.formatter.use_mathtext": True}):
+            plot_perf_re_dep(exp=True, save=args.save)
     if "verification" in args.plot or args.all:
         plot_verification(save=args.save)
     if "foil-data" in args.plot or args.all:
