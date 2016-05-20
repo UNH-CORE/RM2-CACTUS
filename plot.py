@@ -105,6 +105,7 @@ def plot_perf_curves(exp=False, single_ds=False, save=False):
                    markerfacecolor="none", color="black", label="Exp.")
         ax[1].plot(df_exp.mean_tsr, df_exp.mean_cd, marker="^",
                    markerfacecolor="none", color="black", label="Exp.")
+    if exp or not single_ds:
         ax[1].legend(loc="upper left")
     fig.tight_layout()
     if save:
