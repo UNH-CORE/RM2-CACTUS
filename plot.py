@@ -69,15 +69,30 @@ def plot_perf(print_perf=True, save=False):
         fig.savefig("figures/perf.png", dpi=300)
 
 
-def plot_perf_curves(exp=False, save=False):
-    """Plot performance curves."""
+def plot_perf_curves(exp=False, single_ds=False, save=False):
+    """Plot performance curves.
+
+    Parameters
+    ----------
+    single_ds : bool
+        Whether or not to plot results from multiple dynamic stall models.
+    """
     fig, ax = plt.subplots(figsize=(7.5, 3), nrows=1, ncols=2)
     df = pd.read_csv("processed/tsr_sweep.csv")
-    ax[0].plot(df.tsr, df.cp, marker="o", label="CACTUS")
-    ax[1].plot(df.tsr, df.cd, marker="o", label="CACTUS")
+    ax[0].plot(df.tsr, df.cp, marker="o", label="CACTUS LB")
+    ax[1].plot(df.tsr, df.cd, marker="o", label="CACTUS LB")
     ax[0].set_ylabel("$C_P$")
     ax[1].set_ylabel("$C_D$")
     [a.set_xlabel(r"$\lambda$") for a in ax]
+    if not single_ds:
+        if os.path.isfile("processed/tsr_sweep_bv.csv"):
+            df = pd.read_csv("processed/tsr_sweep_bv.csv")
+            ax[0].plot(df.tsr, df.cp, marker="s", label="CACTUS BV")
+            ax[1].plot(df.tsr, df.cd, marker="s", label="CACTUS BV")
+        if os.path.isfile("processed/tsr_sweep_no_ds.csv"):
+            df = pd.read_csv("processed/tsr_sweep_no_ds.csv")
+            ax[0].plot(df.tsr, df.cp, marker="s", label="CACTUS no DS")
+            ax[1].plot(df.tsr, df.cd, marker="s", label="CACTUS no DS")
     if exp:
         df_exp = pd.read_csv("https://raw.githubusercontent.com/UNH-CORE/"
                              "RM2-tow-tank/master/Data/Processed/Perf-1.0.csv")
@@ -90,7 +105,7 @@ def plot_perf_curves(exp=False, save=False):
                    markerfacecolor="none", color="black", label="Exp.")
         ax[1].plot(df_exp.mean_tsr, df_exp.mean_cd, marker="^",
                    markerfacecolor="none", color="black", label="Exp.")
-        ax[1].legend(loc="lower right")
+        ax[1].legend(loc="upper left")
     fig.tight_layout()
     if save:
         fig.savefig("figures/perf-curves.pdf")
@@ -190,6 +205,9 @@ if __name__ == "__main__":
                         choices=["perf", "perf-curves", "perf-curves-exp",
                                  "verification", "foil-data", "re-dep",
                                  "re-dep-exp"])
+    parser.add_argument("--single-ds", "-d", default=False, action="store_true",
+                        help="Plot perf curves for LB dynamic stall model "
+                        "only")
     parser.add_argument("--all", "-A", help="Generate all figures",
                         default=False, action="store_true")
     parser.add_argument("--save", "-s", help="Save to `figures` directory",
@@ -207,9 +225,9 @@ if __name__ == "__main__":
     if "perf" in args.plot or args.all:
         plot_perf(save=args.save)
     if "perf-curves" in args.plot or args.all:
-        plot_perf_curves(exp=False, save=args.save)
+        plot_perf_curves(exp=False, single_ds=args.single_ds, save=args.save)
     if "perf-curves-exp" in args.plot or args.all:
-        plot_perf_curves(exp=True, save=args.save)
+        plot_perf_curves(exp=True, single_ds=args.single_ds, save=args.save)
     if "re-dep" in args.plot or args.all:
         with plt.rc_context(rc={"axes.formatter.use_mathtext": True}):
             plot_perf_re_dep(save=args.save)
