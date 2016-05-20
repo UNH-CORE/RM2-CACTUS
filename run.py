@@ -136,7 +136,8 @@ if __name__ == "__main__":
     parser.add_argument("--param-sweep", "-p", nargs=4,
                         help="Run parameter sweep [name] [start] [stop] [step]")
     parser.add_argument("--dynamic-stall", "-d", default=2, type=int,
-                        help="Dynamic stall model", choices=[0, 1, 2])
+                        help="Dynamic stall model; 0: None, 1: BV, 2: LB",
+                        choices=[0, 1, 2])
     parser.add_argument("--u_infty", "-U", type=float, default=1.0,
                         help="Free stream velocity in m/s")
     parser.add_argument("--nti", "-n", type=int, default=24,
@@ -147,7 +148,7 @@ if __name__ == "__main__":
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
     parser.add_argument("--append", "-a", default=False, action="store_true",
-                        help="Append if running multiple TSRs")
+                        help="Append if running parameter sweep")
 
     args = parser.parse_args()
 
