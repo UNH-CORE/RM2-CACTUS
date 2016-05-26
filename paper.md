@@ -48,4 +48,19 @@ XFOIL data shows overprediction of lift at stall compared with two experimental
 (Gregorek, Jacobs) and one semi-empirical datasets (Sheldahl).
 
 
+### Verification
+
+Sensitivity of the model results to the time step (or number of time steps per
+revolution) and number of blade elements was assessed.
+
+
+### Mean performance
+
+The performance curve of the RM2 was simulated using both the Boeing--Vertol and
+Leishman--Beddoes dynamic stall models, as well as with dynamic stall modeling
+deactivated.
+
+![RM2 performance curves simulated with CACTUS using the Boeing--Vertol, Leishman--Beddoes, and no dynamic stall model.](figures/perf-curves.png)
+
+
 ## Conclusions
