@@ -21,7 +21,7 @@ non-Python dependencies can be installed with
 
 To download and compile CACTUS and related tools along with this repo, execute
 
-    git clone https://github.com/petebachant/RM2-CACTUS.git --recursive
+    git clone https://github.com/UNH-CORE/RM2-CACTUS.git --recursive
 
 then run
 
@@ -79,7 +79,7 @@ Grid" options only.
 ## Acknowledgements
 
 Original configuration files (added in
-[`e42f3ad3`](https://github.com/petebachant/RM2-CACTUS/commit/e42f3ad36f224e5e59e2d13fc2a9224a132c962b))
+[`e42f3ad3`](https://github.com/UNH-CORE/RM2-CACTUS/commit/e42f3ad36f224e5e59e2d13fc2a9224a132c962b))
 from Andrew Murphy Wilson (@awilmurph). The script for creating the wall mesh
 (`./scripts/makewalls.py`) was based on one by Phillip Chiu (@whophil), who
 implemented the wall panels in CACTUS.
