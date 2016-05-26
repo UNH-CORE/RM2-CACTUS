@@ -1,9 +1,12 @@
 # Validation of a vortex line model for a medium solidity vertical-axis turbine
 
-_Peter Bachant, Phillip Chiu, Victor Nevarez, Martin Wosnik, Vincent Neary_
+_Peter Bachant, Phillip Chiu, Andrew Wilson, Victor Nevarez, Martin Wosnik,
+Vincent Neary_
 
 
 ## Abstract
+
+_TODO: Write abstract._
 
 
 ## Introduction
@@ -13,54 +16,123 @@ National Laboratories (SNL) developed the Code for Axial and Cross-flow TUrbine
 Simulation (CACTUS), based on Strickland's VDART model [@Strickland1981],
 originally developed for SNL in the 1980s to aid in the design of Darrieus
 vertical-axis wind turbines (VAWTs). Upgrades to CACTUS beyond VDART include
-ground plane and free surface modeling, as well as a new added mass correction
-[@Murray2011].
+ground plane and free surface modeling, a new added mass correction, and a
+Leishman--Beddoes (LB) dynamic stall (DS) model, in addition to that from
+Boeing--Vertol (BV) [@Murray2011].
 
 CACTUS was previously validated using experimental data from relatively low
-solidity $\sigma = Nc/(2 \pi R)$ rotors. However, when applied to a high
-solidity (or chord-to-radius ratio $c/R$) H-rotor, CACTUS significantly
-overpredicted blade loading, and therefore mean performance coefficients
-[@Michelin2014].
+solidity $\sigma = Nc/(2 \pi R)$ (or simply chord-to-radius ratio $c/R$)
+rotors---the Sandia 5 m Darrieus ($c/R = 0.08$), 34 m Darrieus test bed ($c/R =
+0.05$), and the VAWT 850 tapered H-rotor ($c/R = 0.05$). However, when applied
+to a high solidity H-rotor, the UNH-RVAT, CACTUS significantly overpredicted
+blade loading, and therefore mean performance coefficients [@Michelin2014]. It
+was therefore of interest to validate CACTUS with a medium solidity
+vertical-axis (a.k.a. cross-flow) turbine: the US Department of Energy (DOE)
+Reference Model 2 (RM2).
+
+The RM2 was the subject of an experimental investigation in the University of
+New Hampshire (UNH) tow tank, where mechanical power output, overall streamwise
+drag or thrust, and near-wake velocity were measured with a 1:6 scale physical
+model. A Reynolds number dependence study was performed, which showed strong
+$Re$-dependence below and weak $Re$-dependence above a chord-based Reynolds
+number $Re_c \sim 10^5$ [@Bachant2016-RM2-paper].
 
 
 ### Objectives
 
-1. Evaluate the effectiveness of the CACTUS vortex line model for predicting the
-experimental performance results acquired for the 1:6 scale RM2 physical model
-experiments at UNH.
-2. Suggest what could be done to improve CACTUS predictions, and develop some
-best practice guidelines for its use.
+In this study we sought to evaluate the effectiveness of the CACTUS vortex line
+model for predicting the experimental performance results acquired for the 1:6
+scale RM2 physical model experiments at UNH. Furthermore, we hoped to establish
+some best practice guidelines for its application. In case performance
+predictions were not adequate, a survey of static foil coefficient input data
+was also performed.
 
 
 ## Methods
 
 ### Numerical setup
 
-In this study we are modeling the 1:6 scale RM2 experiment performed in the UNH
-tow tank, for which the data is available from [@Bachant2016-RM2-paper].
+The 1:6 scale RM2 experiment performed in the UNH tow tank, for which the data
+is available from [@Bachant2016-RM2-data], was replicated for a tow speed of 1
+m/s, which corresponds to a turbine diameter Reynolds number $Re_D = 1.1 \times
+10^6$. To match the experimental blockage ratio (10%), wall panel source
+elements were added to the model, corresponding to the tank's 3.66 m wide by
+2.44 m deep cross-section. Turbine rotor and wall geometry is shown in Figure 1.
+
+![Figure 1: Turbine rotor and wall panel geometry.](figures/walls.png)
+
+Static foil coefficient data for the NACA 0021 profiles was taken from Sheldahl
+and Klimas [@Sheldahl1981], as it is the only dataset for the moderate Reynolds
+numbers simulated here. However, it is important to note that this dataset is
+"semi-empirical" in that extrapolations were made for various profiles and
+Reynolds numbers. Recently, Bedon et al. [@Bedon2014] showed with a double
+multiple streamtube (DMST) momentum model that this dataset may be unreliable at
+lower Reynolds numbers.
+
+The model was run for 8 revolutions, over the latter half of which performance
+quantities were averaged.
 
 
 ## Results
 
-### Static foil comparison
-
-XFOIL data shows overprediction of lift at stall compared with two experimental
-(Gregorek, Jacobs) and one semi-empirical datasets (Sheldahl).
-
-
 ### Verification
 
 Sensitivity of the model results to the time step (or number of time steps per
-revolution) and number of blade elements was assessed.
+revolution $N_t$) and number of blade elements was assessed, for which the
+results are shown in Figure 2. Ultimately, the number of time steps per
+revolution and number of elements per blade were chosen as 24 and 16,
+respectively. These values may not indicate a typical "converged" configuration,
+but were chosen for practicality, since the computational expense increases
+about an order of magnitude when doubling $N_t$. For $N_t = 24$, the expense was
+approximately 0.1 CPU hours per simulated second.
+
+![Figure 2: Static foil data comparison for $Re_c = 1.5 \times 10^6$](figures/verification.png)
 
 
 ### Mean performance
 
 The performance curve of the RM2 was simulated using both the Boeing--Vertol and
 Leishman--Beddoes dynamic stall models, as well as with dynamic stall modeling
-deactivated.
+deactivated, and is shown in Figure 3. Dynamic stall has a very significant
+deleterious effect on $C_P$ at the tip speed ratios of interest, and especially
+at lower $\lambda$. The LB and BV DS models produce relatively similar results,
+though the BV performance predictions at lower tip speed ratios do not match the
+experiments as well as the LB results do.
 
-![RM2 performance curves simulated with CACTUS using the Boeing--Vertol, Leishman--Beddoes, and no dynamic stall model.](figures/perf-curves.png)
+![Figure 3: RM2 performance curves simulated with CACTUS using the Boeing--Vertol, Leishman--Beddoes, and no dynamic stall model.](figures/perf-curves.png)
+
+
+### Static foil comparison
+
+Since there were significant discrepancies between the CACTUS results and
+experiments---and also for the ALM using the same static foil data---a
+comparison of the lift and drag coefficients was made at $Re_c = 1.5 \times
+10^6$, shown in Figure 4. Note once again that this Reynolds number is about an
+order of magnitude higher than for the 1:6 scale RM2 experiment, though foil
+data at lower $Re$ was not available. Four datasets were compared: Sheldahl and
+Klimas, Gregorek [@Gregorek1989], Jacobs [@Jacobs1932], and one generated with
+the XFOIL viscous panel code [@Drela1989] via QBlade [@Marten2013], for which
+default settings were used.
+
+In the unstalled regime, all datasets have similar lift slopes ($C_l$ vs.
+$\alpha$) except for the measurements of Jacobs, which may be due to three
+dimensional effects. The XFOIL data shows overprediction of lift at stall
+compared with the two experimental (Gregorek, Jacobs) and one semi-empirical
+datasets (Sheldahl). This overprediction would ultimately result in higher mean
+performance for the RM2 when used in CACTUS, though this may not be physically
+accurate, as the XFOIL panel method may not be considered reliable in the
+post-stall regime.
+
+The post-stall drag coefficients in the Sheldahl and Klimas dataset are
+significantly higher than those measured by Gregorek and simulated with XFOIL.
+However, this may not affect the results when using the LB DS model, since the
+force coefficients are parameterized based on the trailing edge separation
+point. For $C_d$ this parameterized force coefficient is then added to the
+zero-lift drag coefficient, which is similar for all datasets considered.
+
+![Figure 4: Static foil data comparison for $Re_c = 1.5 \times 10^6$](figures/foil-data.png)
 
 
 ## Conclusions
+
+_TODO: Write conclusions.__
