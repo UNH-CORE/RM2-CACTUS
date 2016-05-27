@@ -104,7 +104,7 @@
     WallOutFlag   = 0 ! Output wall panel data
 
     ! Configure Wake Outputs
-    WakeElemOutFlag = 1 ! Output wake element locations
+    WakeElemOutFlag = 0 ! Output wake element locations
     WakeElemOutIntervalTimesteps = 5
     WakeElemOutStartTimestep = 450
     WakeElemOutEndTimestep = -1
