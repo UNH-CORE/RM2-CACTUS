@@ -7,11 +7,13 @@ import numpy as np
 from pxl.styleplot import set_sns
 import os
 import argparse
+from itertools import islice
 
 R = 0.5375
 D = R*2
 nu = 1e-6
 c = (0.04 + 0.06667)/2
+H = 0.807
 
 
 def clean_column_names(df):
@@ -49,6 +51,53 @@ def load_raw_xfoil_data(Re=1.5e6, alpha_name="alpha_deg"):
     df["cl"] = cl
     df["cd"] = cd
     return df
+
+
+def load_probe_data(t1_fraction=0.5):
+    """Load velocity probe data to dictionary of NumPy arrays.
+
+    Parameters
+    ----------
+    t1_fraction : float
+        Fraction of simulation time after which statistics are computed.
+    """
+    # First, obtain a list of all probe file names
+    probe_dir = "./output/probe"
+    fnames = sorted(os.listdir(probe_dir))
+    # For all probe files, read coordinates and average velocities
+    x_R = []
+    y_R = []
+    z_R = []
+    mean_u = []
+    mean_v = []
+    mean_w = []
+    for fname in fnames:
+        with open(os.path.join(probe_dir, fname)) as f:
+            for line in islice(f, 1, 2):
+                line = line.split(",")
+                x_R.append(float(line[0]))
+                y_R.append(float(line[1]))
+                z_R.append(float(line[2]))
+            t, u, v, w, _, _, _ = np.loadtxt(f, skiprows=2, delimiter=",",
+                                             unpack=True)
+            i1 = int(len(t)*t1_fraction)
+            mean_u.append(u[i1:].mean())
+            mean_v.append(v[i1:].mean())
+            mean_w.append(w[i1:].mean())
+    x_R = np.array(x_R)
+    y_R = np.array(y_R)
+    z_R = np.array(z_R)
+    z_H = z_R*R/H
+    nz = len(np.unique(z_H))
+    ny = len(np.unique(y_R))
+    mean_u, mean_v, mean_w = (np.array(mean_u), np.array(mean_v),
+                              np.array(mean_w))
+    # Reshape arrays so y_R indicates columns and z_R rows
+    mean_u = mean_u.reshape(nz, ny)
+    mean_v = mean_v.reshape(nz, ny)
+    mean_w = mean_w.reshape(nz, ny)
+    return {"y_R": y_R, "z_H": z_H, "mean_u": mean_u, "mean_v": mean_v,
+            "mean_w": mean_w}
 
 
 def plot_perf(print_perf=True, save=False):
