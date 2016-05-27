@@ -108,7 +108,7 @@
     WakeElemOutIntervalTimesteps = 5
     WakeElemOutStartTimestep = 450
     WakeElemOutEndTimestep = -1
-    FieldOutFlag = 1 ! Output induced velocity on a 3-D Cartesian grid
+    FieldOutFlag = 0 ! Output induced velocity on a 3-D Cartesian grid
     FieldOutIntervalTimesteps = 5
     FieldOutStartTimestep = 450
     FieldOutEndTimestep = -1
