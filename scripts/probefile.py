@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""This script create the probe specification file to match experiments."""
+"""This script creates the probe specification file to match experiments."""
 
 from __future__ import division, print_function
 import numpy as np
