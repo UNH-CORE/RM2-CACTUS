@@ -22,7 +22,7 @@ x_R = x/R
 coords = []
 for z in z_R:
     for y in y_R:
-        coords.append("{} {} {}".format(x_R, y, z))
+        coords.append("{} {} {}".format(x_R, z, -y)) # Swap y and z
 
 nprobes = len(coords)
 
