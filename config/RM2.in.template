@@ -103,6 +103,10 @@
     DynStallOutFlag = 0
     WallOutFlag   = 0 ! Output wall panel data
 
+    ! Probes
+    ProbeFlag = 1
+    ProbeSpecPath = "./config/probes.txt"
+
     ! Configure Wake Outputs
     WakeElemOutFlag = 0 ! Output wake element locations
     WakeElemOutIntervalTimesteps = 5
