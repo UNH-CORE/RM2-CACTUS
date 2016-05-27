@@ -335,7 +335,7 @@ if __name__ == "__main__":
         if not os.path.isdir("figures"):
             os.mkdir("figures")
 
-    if "perf" in args.plot:
+    if "perf" in args.plot and not args.all:
         plot_perf(save=args.save)
     if "perf-curves" in args.plot or args.all:
         plot_perf_curves(exp=False, single_ds=args.single_ds, save=args.save)
