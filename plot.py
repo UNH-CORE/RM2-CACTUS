@@ -82,17 +82,22 @@ def load_probe_data(t1_fraction=0.5):
                                              unpack=True)
             i1 = int(len(t)*t1_fraction)
             mean_u.append(u[i1:].mean())
-            mean_v.append(v[i1:].mean())
-            mean_w.append(w[i1:].mean())
+            mean_w.append(v[i1:].mean()) # Swap v and w since y-up coord sys
+            mean_v.append(-w[i1:].mean())
     x_R = np.array(x_R)
-    y_R = np.array(y_R)
-    z_R = np.array(z_R)
+    y_R_org = np.array(y_R)
+    z_R_org = np.array(z_R)
+    # Swap y and z since this is a y-up coord sys
+    z_R = y_R_org.copy()
+    y_R = -z_R_org.copy()
     z_H = z_R*R/H
     nz = len(np.unique(z_H))
     ny = len(np.unique(y_R))
     mean_u, mean_v, mean_w = (np.array(mean_u), np.array(mean_v),
                               np.array(mean_w))
     # Reshape arrays so y_R indicates columns and z_R rows
+    y_R = y_R.reshape(nz, ny)
+    z_H = z_H.reshape(nz, ny)
     mean_u = mean_u.reshape(nz, ny)
     mean_v = mean_v.reshape(nz, ny)
     mean_w = mean_w.reshape(nz, ny)
@@ -213,6 +218,64 @@ def plot_verification(save=False):
     if save:
         fig.savefig("figures/verification.pdf")
         fig.savefig("figures/verification.png", dpi=300)
+
+
+def plot_turb_lines(linestyles="solid", linewidth=2, color="gray"):
+    plt.hlines(0.5, -1, 1, linestyles=linestyles, colors=color,
+               linewidth=linewidth)
+    plt.vlines(-1, -0.2, 0.5, linestyles=linestyles, colors=color,
+               linewidth=linewidth)
+    plt.vlines(1, -0.2, 0.5, linestyles=linestyles, colors=color,
+               linewidth=linewidth)
+
+
+def plot_meancontquiv(t1_fraction=0.5, cb_orientation="vertical", save=False):
+    """Plot contours of normalized mean streamwise velocity and vectors of
+    cross-stream and vertical mean velocity.
+    """
+    data = load_probe_data(t1_fraction=t1_fraction)
+    y_R = data["y_R"]
+    z_H = data["z_H"]
+    mean_u = data["mean_u"]
+    mean_v = data["mean_v"]
+    mean_w = data["mean_w"]
+    scale = 7.5/10.0
+    plt.figure(figsize=(10*scale, 3*scale))
+    # Add contours of mean velocity
+    cs = plt.contourf(y_R, z_H, mean_u, 20, cmap=plt.cm.coolwarm)
+    if cb_orientation == "horizontal":
+        cb = plt.colorbar(cs, shrink=1, extend="both",
+                          orientation="horizontal", pad=0.14)
+    elif cb_orientation == "vertical":
+        cb = plt.colorbar(cs, shrink=0.88, extend="both",
+                          orientation="vertical", pad=0.02)
+    cb.set_label(r"$U/U_{\infty}$")
+    # Make quiver plot of v and w velocities
+    Q = plt.quiver(y_R, z_H, mean_v, mean_w, width=0.0022,
+                   edgecolor="none", scale=3)
+    plt.xlabel(r"$y/R$")
+    plt.ylabel(r"$z/H$")
+    plt.ylim(-0.15, 0.85)
+    plt.xlim(-1.68/R, 1.68/R)
+    if cb_orientation == "horizontal":
+        plt.quiverkey(Q, 0.65, 0.26, 0.1, r"$0.1 U_\infty$",
+                      labelpos="E",
+                      coordinates="figure",
+                      fontproperties={"size": "small"})
+    elif cb_orientation == "vertical":
+        plt.quiverkey(Q, 0.65, 0.09, 0.1, r"$0.1 U_\infty$",
+                      labelpos="E",
+                      coordinates="figure",
+                      fontproperties={"size": "small"})
+    plot_turb_lines()
+    ax = plt.axes()
+    ax.set_aspect(H/R)
+    plt.yticks([0, 0.13, 0.25, 0.38, 0.5, 0.63, 0.75])
+    plt.grid(True)
+    plt.tight_layout()
+    if save:
+        plt.savefig("figures/meancontquiv.pdf")
+        plt.savefig("figures/meancontquiv.png", dpi=300)
 
 
 def plot_foildata(save=False):
