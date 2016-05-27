@@ -135,7 +135,7 @@ zero-lift drag coefficient, which is similar for all datasets considered.
 
 ## Conclusions
 
-_TODO: Finish conclusions.__
+_TODO: Finish conclusions._
 
 CACTUS results with the LB DS model were similar to those from an actuator line
 model, which implies the flow modeling is comparable to RANS, but the dynamic
