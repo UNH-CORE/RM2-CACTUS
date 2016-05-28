@@ -102,6 +102,20 @@ experiments as well as the LB results do.
 ![Figure 3: RM2 performance curves simulated with CACTUS using the Boeing--Vertol, Leishman--Beddoes, and no dynamic stall model.](figures/perf-curves.png)
 
 
+### Near-wake mean velocity
+
+To predict the interactions of turbines within arrays and with the
+environment...
+
+Potential flow methods such as that used here may not be as useful when
+predicting the evolution of the wake since they do not model nonlinear advection
+or turbulent transport---as higher fidelity Navier--Stokes models would---but
+adequate resolution of the near-wake mean velocity field may help determine
+optimal layouts for tightly spaced cross-flow turbine arrays.
+
+_TODO: Write section on wake results._
+
+
 ### Static foil comparison
 
 Since there were significant discrepancies between the CACTUS results and
