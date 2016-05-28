@@ -72,3 +72,6 @@ config/RM2.geom
 *.pdf
 
 config/walls.xyz
+
+*.stl
+*.zip

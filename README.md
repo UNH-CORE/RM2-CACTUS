@@ -75,6 +75,9 @@ Run parameter sweep for free stream velocity:
 Open `config/walls.xyz` in ParaView using the "Auto Detect Format" and "Multi
 Grid" options only.
 
+To visualize the turbine geometry, download and rotate the STL file with
+`./scripts/stl.sh`, then open `./figures/turbine-y-up.stl` in ParaView.
+
 
 ## Acknowledgements
 
