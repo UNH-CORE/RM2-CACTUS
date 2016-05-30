@@ -6,6 +6,12 @@ cactus:
 	./scripts/make-cactus.sh
 
 
+## clean-cactus     Clean CACTUS
+.PHONY: clean-cactus
+clean-cactus:
+	cd ./cactus/make && make clean
+
+
 .PHONY: help
 help: Makefile
 	@sed -n "s/^##//p" $<
