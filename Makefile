@@ -6,7 +6,7 @@ cactus:
 	./scripts/make-cactus.sh
 
 
-## clean-cactus     Clean CACTUS
+## clean-cactus:    Clean CACTUS
 .PHONY: clean-cactus
 clean-cactus:
 	cd ./cactus/make && make clean
