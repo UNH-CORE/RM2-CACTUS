@@ -102,6 +102,11 @@ experiments as well as the LB results do.
 ![Figure 3: RM2 performance curves simulated with CACTUS using the Boeing--Vertol, Leishman--Beddoes, and no dynamic stall model.](figures/perf-curves.png)
 
 
+### Performance Reynolds number dependence
+
+![Figure 4: Reynolds number dependence of mean power coefficient.](figures/perf-re-dep.png)
+
+
 ### Near-wake mean velocity
 
 To predict the interactions of turbines within arrays and with the
