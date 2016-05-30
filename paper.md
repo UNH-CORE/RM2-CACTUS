@@ -69,8 +69,8 @@ Reynolds numbers. Recently, Bedon et al. [@Bedon2014] showed with a double
 multiple streamtube (DMST) momentum model that this dataset may be unreliable at
 lower Reynolds numbers.
 
-The model was run for 8 revolutions, over the latter half of which performance
-quantities were averaged.
+The model was run for eight revolutions, over the latter half of which
+performance quantities were averaged.
 
 
 ## Results
