@@ -102,11 +102,6 @@ experiments as well as the LB results do.
 ![Figure 3: RM2 performance curves simulated with CACTUS using the Boeing--Vertol, Leishman--Beddoes, and no dynamic stall model.](figures/perf-curves.png)
 
 
-### Performance Reynolds number dependence
-
-![Figure 4: Reynolds number dependence of mean power coefficient.](figures/perf-re-dep.png)
-
-
 ### Near-wake mean velocity
 
 To predict the interactions of turbines within arrays and with the
@@ -150,6 +145,21 @@ point. For $C_d$ this parameterized force coefficient is then added to the
 zero-lift drag coefficient, which is similar for all datasets considered.
 
 ![Figure 4: Static foil data comparison for $Re_c = 1.5 \times 10^6$](figures/foil-data.png)
+
+The Reynolds number dependence of the CACTUS performance predictions was
+assessed in a similar fashion as it was in the RM2 tow tank experiment---by
+keeping the tip speed ratio constant at 3.1 and varying the free stream
+velocity. In this case CACTUS was run using the Sheldahl and Klimas foil data at
+higher Reynolds numbers than measured in experiment, the results from which are
+shown in Figure 5. In accordance with the Bedon et al. [@Bedon2014] results
+(obtained without dynamic stall modeling), the Sheldahl and Klimas data appears
+to exaggerate the decrease in performance at low $Re$, though the results look
+like they will converge at higher $Re$. This hints at the fact that the Sheldahl
+and Klimas data may not be reliable at low $Re$. Unfortunately, experimental
+static foil data does not exist or is very hard to find for a NACA 0021 at $Re
+\sim 10^5, which precludes comparison.
+
+![Figure 5: Reynolds number dependence of mean power coefficient.](figures/perf-re-dep.png)
 
 
 ## Conclusions
