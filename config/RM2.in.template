@@ -46,6 +46,7 @@
 
     ! Dynamic aero effects
     DSFlag   = {dynamic_stall} ! 0: No dynamic stall, 1: BV model, 2: LB model
+    LBDynStallTp = {tp} ! LB DS model Tp time constant (default = 1.7)
     PRFlag   = 1    ! Enable element pitch rate aerodynamic effects
 
 /End

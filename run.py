@@ -144,6 +144,8 @@ if __name__ == "__main__":
                         help="Time steps per rev")
     parser.add_argument("--nbelem", "-e", type=int, default=16,
                         help="Number of elements per blade")
+    parser.add_argument("--tp", type=float, default=1.7,
+                        help="Leishman-Beddoes DS model Tp time constant")
     parser.add_argument("--no-walls", default=False, action="store_true")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
@@ -164,10 +166,10 @@ if __name__ == "__main__":
             dtype = float
         start, stop, step = dtype(start), dtype(stop), dtype(step)
         param_sweep(name, start=start, stop=stop, step=step, dtype=dtype,
-                    append=args.append, overwrite=args.overwrite,
+                    append=args.append, overwrite=args.overwrite, tp=args.tp,
                     dynamic_stall=args.dynamic_stall, u_infty=args.u_infty,
                     nti=args.nti, nbelem=args.nbelem, walls=int(walls))
     else:
         run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
-                   u_infty=args.u_infty, overwrite=args.overwrite,
+                   u_infty=args.u_infty, overwrite=args.overwrite, tp=args.tp,
                    nti=args.nti, nbelem=args.nbelem, walls=int(walls))
