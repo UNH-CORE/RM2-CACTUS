@@ -192,8 +192,8 @@ def plot_perf_re_dep(exp=False, save=False):
             ax.legend(loc="lower right")
         fig.tight_layout()
         if save:
-            fig.savefig("figures/perf_re_dep.png", dpi=300)
-            fig.savefig("figures/perf_re_dep.pdf")
+            fig.savefig("figures/perf-re-dep.png", dpi=300)
+            fig.savefig("figures/perf-re-dep.pdf")
     else:
         return None
 
