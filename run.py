@@ -81,6 +81,7 @@ def log_perf(fpath="processed/tsr_sweep.csv"):
     tsr = params["TSR (-)"].iloc[0]
     u_infty = np.round(params["U (ft/s)"].iloc[0]*0.3048, decimals=5)
     run = pd.read_csv("output/RM2_RevData.csv")
+    nrevs = int(run["Rev"].max())
     run = run.iloc[len(run)//2:].mean()
     cp = run["Power Coeff. (-)"]
     cd = run["Fx Coeff. (-)"]
@@ -90,14 +91,15 @@ def log_perf(fpath="processed/tsr_sweep.csv"):
     if os.path.isfile(fpath):
         df = pd.read_csv(fpath)
     else:
-        df = pd.DataFrame(columns=["tsr", "cp", "cd", "u_infty", "dsflag",
+        df = pd.DataFrame(columns=["tsr", "cp", "cd", "u_infty", "dsflag", "tp",
                                    "nti", "nbelem", "nrevs", "walls",
                                    "cpu_hrs_per_sec"])
     d = {"tsr": tsr, "cp": cp, "cd": cd, "u_infty": u_infty}
     d["dsflag"] = get_param("dsflag", dtype=int)
+    d["tp"] = get_param("LBDynStallTp", dtype=float)
     d["nbelem"] = get_nbelem()
     d["nti"] = get_param("nti", dtype=int)
-    d["nrevs"] = int(run["Rev"])
+    d["nrevs"] = nrevs
     d["walls"] = get_param("WPFlag", dtype=int)
     d["cpu_hrs_per_sec"] = cpu_hrs_per_sec(tsr=tsr, u_infty=u_infty,
                                            nrevs=d["nrevs"])
