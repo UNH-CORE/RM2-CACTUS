@@ -114,7 +114,7 @@ def plot_perf(print_perf=True, save=False):
               df_last.theta_deg.min(), df_last.theta_deg.max(),
               df_last.power_coeff.mean()))
     fig, ax = plt.subplots()
-    ax.plot(df.theta_deg, df.power_coeff)
+    ax.plot(df.theta_deg, df.power_coeff, marker="o")
     ax.set_xlabel(r"$\theta$ (degrees)")
     ax.set_ylabel(r"$C_P$")
     fig.tight_layout()
