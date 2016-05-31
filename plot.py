@@ -123,7 +123,7 @@ def plot_perf(print_perf=True, save=False):
         fig.savefig("figures/perf.png", dpi=300)
 
 
-def plot_perf_curves(exp=False, single_ds=False, save=False):
+def plot_perf_curves(exp=False, single_ds=False, alm=True, save=False):
     """Plot performance curves.
 
     Parameters
@@ -145,8 +145,14 @@ def plot_perf_curves(exp=False, single_ds=False, save=False):
             ax[1].plot(df.tsr, df.cd, marker="s", label="CACTUS BV")
         if os.path.isfile("processed/tsr_sweep_no_ds.csv"):
             df = pd.read_csv("processed/tsr_sweep_no_ds.csv")
-            ax[0].plot(df.tsr, df.cp, marker="s", label="CACTUS no DS")
-            ax[1].plot(df.tsr, df.cd, marker="s", label="CACTUS no DS")
+            ax[0].plot(df.tsr, df.cp, marker="d", label="CACTUS no DS")
+            ax[1].plot(df.tsr, df.cd, marker="d", label="CACTUS no DS")
+    if alm:
+        df_alm = pd.read_csv("https://raw.githubusercontent.com/"
+                             "petebachant/RM2-turbinesFoam/master/processed/"
+                             "tsr_sweep.csv")
+        ax[0].plot(df_alm.tsr, df_alm.cp, marker="v", label="ALM")
+        ax[1].plot(df_alm.tsr, df_alm.cd, marker="v", label="ALM")
     if exp:
         df_exp = pd.read_csv("https://raw.githubusercontent.com/UNH-CORE/"
                              "RM2-tow-tank/master/Data/Processed/Perf-1.0.csv")
@@ -159,7 +165,7 @@ def plot_perf_curves(exp=False, single_ds=False, save=False):
                    markerfacecolor="none", color="black", label="Exp.")
         ax[1].plot(df_exp.mean_tsr, df_exp.mean_cd, marker="^",
                    markerfacecolor="none", color="black", label="Exp.")
-    if exp or not single_ds:
+    if exp or not single_ds or alm:
         ax[1].legend(loc="upper left")
     fig.tight_layout()
     if save:
@@ -321,6 +327,8 @@ if __name__ == "__main__":
     parser.add_argument("--single-ds", "-d", default=False, action="store_true",
                         help="Plot perf curves for LB dynamic stall model "
                         "only")
+    parser.add_argument("--no-alm", default=False, action="store_true",
+                        help="Do not plot ALM results")
     parser.add_argument("--all", "-A", help="Generate all figures",
                         default=False, action="store_true")
     parser.add_argument("--save", "-s", help="Save to `figures` directory",
@@ -337,10 +345,12 @@ if __name__ == "__main__":
 
     if "perf" in args.plot and not args.all:
         plot_perf(save=args.save)
-    if "perf-curves" in args.plot or args.all:
-        plot_perf_curves(exp=False, single_ds=args.single_ds, save=args.save)
+    if "perf-curves" in args.plot:
+        plot_perf_curves(exp=False, single_ds=args.single_ds,
+                         alm=not args.no_alm, save=args.save)
     if "perf-curves-exp" in args.plot or args.all:
-        plot_perf_curves(exp=True, single_ds=args.single_ds, save=args.save)
+        plot_perf_curves(exp=True, single_ds=args.single_ds,
+                         alm=not args.no_alm, save=args.save)
     if "re-dep" in args.plot or args.all:
         with plt.rc_context(rc={"axes.formatter.use_mathtext": True}):
             plot_perf_re_dep(save=args.save)
