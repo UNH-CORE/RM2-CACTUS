@@ -315,6 +315,23 @@ def plot_foildata(save=False):
         fig.savefig("figures/foil-data.png", dpi=300)
 
 
+def plot_tp_dep(save=False):
+    """Plot dependence of mean C_P on LB DS model T_p parameter."""
+    fpath = "processed/tp_sweep.csv"
+    if os.path.isfile(fpath):
+        df = pd.read_csv(fpath)
+        fig, ax = plt.subplots()
+        ax.plot(df.tp, df.cp, marker="o")
+        ax.set_xlabel("$T_p$")
+        ax.set_ylabel("$C_P$")
+        fig.tight_layout()
+        if save:
+            fig.savefig("figures/tp-dep.pdf")
+            fig.savefig("figures/tp-dep.png", dpi=300)
+    else:
+        print(fpath, "not found")
+
+
 if __name__ == "__main__":
     set_sns()
     plt.rcParams["axes.grid"] = True
@@ -323,7 +340,7 @@ if __name__ == "__main__":
     parser.add_argument("plot", nargs="*", help="What to plot", default="perf",
                         choices=["perf", "perf-curves", "perf-curves-exp",
                                  "verification", "foil-data", "re-dep",
-                                 "re-dep-exp"])
+                                 "re-dep-exp", "tp-dep"])
     parser.add_argument("--single-ds", "-d", default=False, action="store_true",
                         help="Plot perf curves for LB dynamic stall model "
                         "only")
@@ -361,6 +378,8 @@ if __name__ == "__main__":
         plot_verification(save=args.save)
     if "foil-data" in args.plot or args.all:
         plot_foildata(save=args.save)
+    if "tp-dep" in args.plot or args.all:
+        plot_tp_dep(save=args.save)
 
     if not args.no_show:
         plt.show()
