@@ -72,7 +72,7 @@
     gustamp = 0
     gusttime = 0
     gustX0  = 0
-    itower  = 1        ! Switch to activate tower wake model
+    itower  = 1         ! Switch to activate tower wake model
     tower_Npts = 10
     tower_x = 0
     tower_ybot = -1.23
@@ -91,7 +91,7 @@
     WallMeshPath = './config/walls.xyz'
 
     ! Other parameters
-    CDPar   = 0
+    CDPar   = 0     ! Parasitic losses from blade/strut joint
     CTExcrM = 0
 
 /End
