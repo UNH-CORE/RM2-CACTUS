@@ -19,9 +19,9 @@
     WPFlag   = {walls}  ! Use walls
 
     ! Calculations inputs
-    nr  	 = 8       ! Number of revolutions
-    nti 	 = {nti}      ! Time steps per rev
-    convrg	 = -1      ! Convergence level for the revolution average power
+    nr       = 8       ! Number of revolutions
+    nti      = {nti}      ! Time steps per rev
+    convrg   = -1      ! Convergence level for the revolution average power
                        ! coefficient.
                        ! Iteration will finish before nr revs if this level is
                        ! hit. Input -1 to skip convergence check (default)
@@ -35,12 +35,12 @@
     vcrft    = 1
     vcrfs    = 1
     Incompr  = 1    ! Switch for incompressible flow
-    ifc 	 = 0    ! Switch to use final convergence step
-    nric 	 = -1   ! Revolution after which to switch to final convergence
+    ifc      = 0    ! Switch to use final convergence step
+    nric     = -1   ! Revolution after which to switch to final convergence
     ntif     = -1   ! Final number of time steps per revolution
-    convrgf	 = -1
+    convrgf  = -1
     iutf     = 0    ! Final number of iterations between wake updates
-    ixterm 	 = 0    ! Switch to ignore wake points beyond x/R = xstop
+    ixterm   = 0    ! Switch to ignore wake points beyond x/R = xstop
     xstop    = 5    ! If ixterm = 1, defines x/R beyond which wake points are
                     ! ignored (default=5)
 
@@ -57,22 +57,22 @@
     jbtitle = 'RM2'
 
     ! Operation point inputs
-    RPM 	= {rpm}    ! RPM -- was 55.075
-    Ut  	= {tsr}    ! Tip speed ratio
-    rho 	= 1.936    ! Density (slugs/ft^3)
-    vis 	= 2.034E-5 ! Dynamic viscosity (slugs/(ft*s))
-    tempr 	= 70       ! Temperature (degrees F)
-    hBLRef 	= 0.00001  ! Height above ground of the effective freestream to be
+    RPM     = {rpm}    ! RPM -- was 55.075
+    Ut      = {tsr}    ! Tip speed ratio
+    rho     = 1.936    ! Density (slugs/ft^3)
+    vis     = 2.034E-5 ! Dynamic viscosity (slugs/(ft*s))
+    tempr   = 70       ! Temperature (degrees F)
+    hBLRef  = 0.00001  ! Height above ground of the effective freestream to be
                        ! used in ground shear layer model (ft)
-    slex 	= 0.001    ! Exponent for ground shear layer model
-    hAG 	= 2.744915
+    slex    = 0.001    ! Exponent for ground shear layer model
+    hAG     = 2.744915
     dFS     = 5.26034
-    ! WzD		= 6.00394  ! Unknown
+    ! WzD        = 6.00394  ! Unknown
     igust   = 0
     gustamp = 0
     gusttime = 0
     gustX0  = 0
-    itower  = 1         ! Switch to activate tower wake model
+    itower  = 1        ! Switch to activate tower wake model
     tower_Npts = 10
     tower_x = 0
     tower_ybot = -1.23
@@ -84,8 +84,8 @@
     GeomFilePath='./config/RM2.geom'
 
     ! Airfoil section data
-    nSect 	= 1
-    AFDPath	= './config/NACA_0021.dat'
+    nSect     = 1
+    AFDPath   = './config/NACA_0021.dat'
 
     ! Wall mesh
     WallMeshPath = './config/walls.xyz'
