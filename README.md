@@ -25,7 +25,7 @@ To download and compile CACTUS and related tools along with this repo, execute
 
 then run
 
-    ./scripts/make-cactus.sh
+    make cactus
 
 Note that if this repo was cloned without the `--recursive` option, the
 submdules can be cloned with
