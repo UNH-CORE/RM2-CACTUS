@@ -1,7 +1,6 @@
 # Validation of a vortex line model for a medium solidity vertical-axis turbine
 
-_Peter Bachant, Phillip Chiu, Andrew Wilson, Victor Nevarez, Martin Wosnik,
-Vincent Neary_
+_Peter Bachant, Andrew Wilson, Phillip Chiu, Martin Wosnik, Vincent Neary_
 
 
 ## Abstract
