@@ -315,6 +315,28 @@ def plot_foildata(save=False):
         fig.savefig("figures/foil-data.png", dpi=300)
 
 
+def plot_foildata_lowre(save=False):
+    """Plot 0018 foil data for low Reynolds number."""
+    fig, ax = plt.subplots(figsize=(7.5, 3.25), nrows=1, ncols=2)
+    data = {"Sheldahl": pd.read_csv("config/foildata/"
+                                    "NACA_0018_Sheldahl_1.6e5.csv"),
+            "Jacobs": pd.read_csv("config/foildata/"
+                                  "NACA_0018_Jacobs_1.6e5.csv")}
+    for d, m in zip(["Sheldahl", "Jacobs"], ["o", "^"]):
+        df = data[d]
+        df = df.sort_values(by="alpha")
+        ax[0].plot(df.alpha, df.cl, marker=m, label=d)
+        ax[1].plot(df.alpha, df.cd, marker=m, label=d)
+    [a.set_xlabel(r"$\alpha$ (degrees)") for a in ax]
+    ax[0].set_ylabel("$C_l$")
+    ax[1].set_ylabel("$C_d$")
+    ax[0].legend(loc="lower right")
+    fig.tight_layout()
+    if save:
+        fig.savefig("figures/foil-data-low-Re.pdf")
+        fig.savefig("figures/foil-data-low-Re.png", dpi=300)
+
+
 def plot_tp_dep(save=False):
     """Plot dependence of mean C_P on LB DS model T_p parameter."""
     fpath = "processed/tp_sweep.csv"
@@ -378,6 +400,7 @@ if __name__ == "__main__":
         plot_verification(save=args.save)
     if "foil-data" in args.plot or args.all:
         plot_foildata(save=args.save)
+        plot_foildata_lowre(save=args.save)
     if "tp-dep" in args.plot or args.all:
         plot_tp_dep(save=args.save)
 
