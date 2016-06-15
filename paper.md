@@ -166,7 +166,7 @@ force coefficients are parameterized based on the trailing edge separation
 point. For $C_d$ this parameterized force coefficient is then added to the
 zero-lift drag coefficient, which is similar for all datasets considered.
 
-![Figure 4: Static foil data comparison for $Re_c = 1.5 \times 10^6$](figures/foil-data.png)
+![Figure 4: Static foil data comparison for $Re_c = 1.5 \times 10^6$.](figures/foil-data.png)
 
 The Reynolds number dependence of the CACTUS performance predictions was
 assessed in a similar fashion as it was in the RM2 tow tank experiment---by
