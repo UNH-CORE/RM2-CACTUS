@@ -315,7 +315,7 @@ def plot_foildata(save=False):
         fig.savefig("figures/foil-data.png", dpi=300)
 
 
-def plot_foildata_lowre(save=False):
+def plot_foildata_lowre(cfd=True, save=False):
     """Plot 0018 foil data for low Reynolds number."""
     fig, ax = plt.subplots(figsize=(7.5, 3.25), nrows=1, ncols=2)
     data = {"Sheldahl": pd.read_csv("config/foildata/"
@@ -328,6 +328,14 @@ def plot_foildata_lowre(save=False):
         ax[0].plot(df.alpha, df.cl, marker=m, label=d)
         ax[1].plot(df.alpha, df.cd, marker=m, label=d)
     [a.set_xlabel(r"$\alpha$ (degrees)") for a in ax]
+    if cfd:
+        df_cfd = pd.read_csv("https://raw.githubusercontent.com/petebachant/"
+                             "NACAFoil-OpenFOAM/master/processed/"
+                             "NACA0018_2.0e%2B05.csv")
+        ax[0].plot(df_cfd.alpha_deg, df_cfd.cl, marker="s",
+                   label="2-D SST RANS")
+        ax[1].plot(df_cfd.alpha_deg, df_cfd.cd, marker="s",
+                   label="2-D SST RANS")
     ax[0].set_ylabel("$C_l$")
     ax[1].set_ylabel("$C_d$")
     ax[0].legend(loc="lower right")
@@ -376,6 +384,8 @@ if __name__ == "__main__":
                         help="Do not call matplotlib show function")
     parser.add_argument("-q", help="Quantities to plot", nargs="*",
                         default=["alpha", "rel_vel_mag"])
+    parser.add_argument("--cfd", default=False, action="store_true",
+                        help="Plot CFD results for low Re static foil data")
     args = parser.parse_args()
 
     if args.save:
@@ -400,7 +410,7 @@ if __name__ == "__main__":
         plot_verification(save=args.save)
     if "foil-data" in args.plot or args.all:
         plot_foildata(save=args.save)
-        plot_foildata_lowre(save=args.save)
+        plot_foildata_lowre(cfd=args.cfd, save=args.save)
     if "tp-dep" in args.plot or args.all:
         plot_tp_dep(save=args.save)
 
