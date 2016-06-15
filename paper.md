@@ -49,6 +49,11 @@ was also performed.
 
 ## Methods
 
+### Description of CACTUS
+CACTUS assumes an incompressible potential flow field and uses a system of constant-strength vortex filaments to model the unsteady rotor wake. Each blade is modeled as a series of bound vortex filaments which span the blade's quarter-chord line. The strength of each bound vortex is computed based on the local velocity, and on the lift coefficient which is found from the local angle of attack and a specified airfoil table. At each timestep, spanwise and trailing vortices are shed from these bound vortices; their strengths are computed in accordance with Helmholtz's circulation theorems. Each vortex filament induces a velocity field, and each filament of the wake advects under the total velocity influence of the wake system. Airfoil drag forces contribute to the blade and rotor loads.
+
+The influence of walls on the flow field is modeled using a system of first-order constant strength quadrilateral source panels. The strengths of these source panels are updated at each timestep to satisfy the no flow-through condition at each panel's center. As with the vortex filaments representing the wake, each source panel contributes to the velocity field, and thus the velocity influence of the wall system influences both the local velocities along the blade elements and the advection of the wake.
+
 ### Numerical setup
 
 The 1:6 scale RM2 experiment performed in the UNH tow tank, for which the data
