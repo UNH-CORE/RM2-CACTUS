@@ -183,18 +183,19 @@ static foil data does not exist or is very hard to find for a NACA 0021 at $Re
 
 ![Figure 5: Reynolds number dependence of mean power coefficient.](figures/perf-re-dep.png)
 
-The validity of the Sheldahl and Klimas dataset was assessed for a NACA 0018
+The validity of the Sheldahl and Klimas dataset was assessed for a NACA 0021
 airfoil at low Reynolds number---$Re_c=1.6 \times 10^5$ by comparing with the
 wind tunnel data from Jacobs and Sherman [@Jacobs1937]. The results plotted in
 Figure 6 show how in the attached regime both datasets agree well, but the stall
 characteristic in the Sheldahl data appears to overestimate the detrimental
-effects of separation on the lift coefficient. Though this data was not taken
-for the same profile as the RM2 blades, it does imply that the static 0021 foil
-data could be the cause of the discrepancies in predicted turbine performance,
-which is reinforced by the aforementioned potential extrapolation of the
-Reynolds number dependence plotted in Figure 5.
+effects of separation on the lift coefficient. This comparison implies that the
+use of the Sheldahl and Klimas static 0021 foil data could be the cause of the
+discrepancies in predicted turbine performance, which is reinforced by the
+aforementioned potential extrapolation of the Reynolds number dependence plotted
+in Figure 5. Note that the Jacobs 0021 database does not include drag
+coefficient data at the Reynolds numbers of interest.
 
-![Figure 6: Static foil data comparison for NACA 0018 airfoil at $Re_c = 1.6 \times 10^5$.](figures/foil-data-low-Re.png)
+![Figure 6: Static lift coefficient comparison for NACA 0021 airfoil at $Re_c = 1.6 \times 10^5$.](figures/foil-data-low-Re.png)
 
 
 ## Conclusions

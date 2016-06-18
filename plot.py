@@ -316,29 +316,26 @@ def plot_foildata(save=False):
 
 
 def plot_foildata_lowre(cfd=True, save=False):
-    """Plot 0018 foil data for low Reynolds number."""
-    fig, ax = plt.subplots(figsize=(7.5, 3.25), nrows=1, ncols=2)
+    """Plot 0021 lift coefficient for low Reynolds number."""
+    fig, ax = plt.subplots()
     data = {"Sheldahl": pd.read_csv("config/foildata/"
-                                    "NACA_0018_Sheldahl_1.6e5.csv"),
+                                    "NACA_0021_Sheldahl_1.6e5.csv"),
             "Jacobs": pd.read_csv("config/foildata/"
-                                  "NACA_0018_Jacobs_1.6e5.csv")}
+                                  "NACA_0021_Jacobs_1.6e5.csv")}
     for d, m in zip(["Sheldahl", "Jacobs"], ["o", "^"]):
         df = data[d]
         df = df.sort_values(by="alpha")
-        ax[0].plot(df.alpha, df.cl, marker=m, label=d)
-        ax[1].plot(df.alpha, df.cd, marker=m, label=d)
-    [a.set_xlabel(r"$\alpha$ (degrees)") for a in ax]
+        df = df[df.alpha >= -0.1]
+        ax.plot(df.alpha, df.cl, marker=m, label=d)
+    ax.set_xlabel(r"$\alpha$ (degrees)")
     if cfd:
         df_cfd = pd.read_csv("https://raw.githubusercontent.com/petebachant/"
                              "NACAFoil-OpenFOAM/master/processed/"
-                             "NACA0018_2.0e%2B05.csv")
-        ax[0].plot(df_cfd.alpha_deg, df_cfd.cl, marker="s",
-                   label="2-D SST RANS")
-        ax[1].plot(df_cfd.alpha_deg, df_cfd.cd, marker="s",
-                   label="2-D SST RANS")
-    ax[0].set_ylabel("$C_l$")
-    ax[1].set_ylabel("$C_d$")
-    ax[0].legend(loc="lower right")
+                             "NACA0021_2.0e%2B05.csv")
+        ax.plot(df_cfd.alpha_deg, df_cfd.cl, marker="s",
+                label="2-D SST RANS")
+    ax.set_ylabel("$C_l$")
+    ax.legend(loc="lower right")
     fig.tight_layout()
     if save:
         fig.savefig("figures/foil-data-low-Re.pdf")
