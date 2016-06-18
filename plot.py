@@ -315,7 +315,7 @@ def plot_foildata(save=False):
         fig.savefig("figures/foil-data.png", dpi=300)
 
 
-def plot_foildata_lowre(cfd=True, save=False):
+def plot_foildata_lowre(xfoil=True, cfd=False, save=False):
     """Plot 0021 lift coefficient for low Reynolds number."""
     fig, ax = plt.subplots()
     data = {"Sheldahl": pd.read_csv("config/foildata/"
@@ -328,6 +328,11 @@ def plot_foildata_lowre(cfd=True, save=False):
         df = df[df.alpha >= -0.1]
         ax.plot(df.alpha, df.cl, marker=m, label=d)
     ax.set_xlabel(r"$\alpha$ (degrees)")
+    if xfoil:
+        df = load_raw_xfoil_data(Re=1.6e5, alpha_name="alpha")
+        df = df[df.alpha > -0.1]
+        df = df[df.alpha < 30]
+        ax.plot(df.alpha, df.cl, label="XFOIL", marker="x")
     if cfd:
         df_cfd = pd.read_csv("https://raw.githubusercontent.com/petebachant/"
                              "NACAFoil-OpenFOAM/master/processed/"
@@ -383,6 +388,8 @@ if __name__ == "__main__":
                         default=["alpha", "rel_vel_mag"])
     parser.add_argument("--cfd", default=False, action="store_true",
                         help="Plot CFD results for low Re static foil data")
+    parser.add_argument("--cfoil", default=False, action="store_true",
+                        help="Plot XFOIL results for low Re static foil data")
     args = parser.parse_args()
 
     if args.save:
@@ -407,7 +414,7 @@ if __name__ == "__main__":
         plot_verification(save=args.save)
     if "foil-data" in args.plot or args.all:
         plot_foildata(save=args.save)
-        plot_foildata_lowre(cfd=args.cfd, save=args.save)
+        plot_foildata_lowre(xfoil=args.xfoil, cfd=args.cfd, save=args.save)
     if "tp-dep" in args.plot or args.all:
         plot_tp_dep(save=args.save)
 
