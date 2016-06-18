@@ -388,7 +388,7 @@ if __name__ == "__main__":
                         default=["alpha", "rel_vel_mag"])
     parser.add_argument("--cfd", default=False, action="store_true",
                         help="Plot CFD results for low Re static foil data")
-    parser.add_argument("--cfoil", default=False, action="store_true",
+    parser.add_argument("--xfoil", default=False, action="store_true",
                         help="Plot XFOIL results for low Re static foil data")
     args = parser.parse_args()
 
