@@ -186,15 +186,15 @@ def plot_perf_curves_jacobs(exp=False, ds="bv", save=False):
         or "bv".
     """
     fig, ax = plt.subplots(figsize=(7.5, 3), nrows=1, ncols=2)
-    for db in ["Sheldahl", "Jacobs"]:
+    for db, marker in zip(["Sheldahl", "Jacobs"], ["o", "s"]):
         fpath = "processed/tsr_sweep.csv"
         if db == "Jacobs":
             fpath = fpath.replace(".csv", "_Jacobs.csv")
         if ds == "bv":
             fpath = fpath.replace(".csv", "_bv.csv")
         df = pd.read_csv(fpath)
-        ax[0].plot(df.tsr, df.cp, marker="o", label=db)
-        ax[1].plot(df.tsr, df.cd, marker="o", label=db)
+        ax[0].plot(df.tsr, df.cp, marker=marker, label=db)
+        ax[1].plot(df.tsr, df.cd, marker=marker, label=db)
     ax[0].set_ylabel("$C_P$")
     ax[1].set_ylabel("$C_D$")
     [a.set_xlabel(r"$\lambda$") for a in ax]
