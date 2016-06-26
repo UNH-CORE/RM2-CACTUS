@@ -214,8 +214,8 @@ def plot_perf_curves_jacobs(exp=False, ds="bv", save=False):
         ax[1].legend(loc="upper left")
     fig.tight_layout()
     if save:
-        fig.savefig("figures/perf-curves.pdf")
-        fig.savefig("figures/perf-curves.png", dpi=300)
+        fig.savefig("figures/perf-curves-jacobs.pdf")
+        fig.savefig("figures/perf-curves-jacobs.png", dpi=300)
 
 
 def plot_perf_re_dep(exp=False, save=False):
