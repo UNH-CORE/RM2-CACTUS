@@ -117,6 +117,8 @@ def param_sweep(param="tsr", start=None, stop=None, step=None, dtype=float,
     fpath = "processed/{}_sweep.csv".format(param)
     if kwargs["foildata"] == "Jacobs":
         fpath = fpath.replace(".csv", "_Jacobs.csv")
+    if kwargs["dynamic_stall"] == 1:
+        fpath = fpath.replace(".csv", "_bv.csv")
     if os.path.isfile(fpath):
         if not overwrite and not append:
             sys.exit("{} sweep results present; remove, --append, or "
