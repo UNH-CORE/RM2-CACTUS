@@ -92,7 +92,7 @@ implemented the wall panels in CACTUS.
 
 | File name | Reference |
 |-----------|-----------|
-| `NACA_0021.dat` | Sheldahl, R. and Klimas, P. (1981) "Aerodynamic Characteristics of Seven Symmetrical Airfoil Sections Through 180-Degrees Angle of Attack for Use in Aerodynamic Analysis of Vertical Axis Wind Turbines". |
+| `NACA_0021_Sheldahl.dat` | Sheldahl, R. and Klimas, P. (1981) "Aerodynamic Characteristics of Seven Symmetrical Airfoil Sections Through 180-Degrees Angle of Attack for Use in Aerodynamic Analysis of Vertical Axis Wind Turbines". |
 | `NACA_0021_Gregorek.csv` | Static data from Gregorek, G. M.; Hoffman, M. J. and Berchak, M. J. (1989) "Steady state and oscillatory aerodynamic characteristics of a NACA 0021 airfoil". Reynolds number values are divided by 1 million. |
 | `NACA_0021_Jacobs*.csv` | Lift coefficient data manually digitized from Jacobs (1932) "The aerodynamic characteristics of eight very thick airfoils from tests in the variable density wind tunnel". |
 | `NACA_0018_Jacobs*` | Data from Jacobs and Sherman (1937), tabulated in Miley (1982) "A catalog of low Reynolds number airfoil data for wind turbine applications". |
