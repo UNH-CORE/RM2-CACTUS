@@ -35,7 +35,7 @@ for re in re_list:
     df = pd.read_csv("config/foildata/NACA_0021_Jacobs_{}.csv".format(re))
     df = df[df.alpha >= 0.0]
     alpha = np.append(-np.flipud(df.alpha), df.alpha)
-    cl = np.append(np.flipud(df.cl), df.cl)
+    cl = np.append(-np.flipud(df.cl), df.cl)
     df = pd.DataFrame()
     df["alpha_deg"] = alpha
     df["cl"] = cl
