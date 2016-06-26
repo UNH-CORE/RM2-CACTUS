@@ -4,14 +4,19 @@
 from __future__ import division, print_function
 import numpy as np
 import pandas as pd
+from scipy.stats import linregress
 
 
 # Default CACTUS 0021 data has zero for all moment coeffs
 zero_cms = True
+# Whether or not to calculate lift slopes
+calc_lift_slopes = False
 # Whether or not to calculate LB DS model critical lift coefficients
-calc_lb_crit_cls = True
+calc_lb_crit_cls = False
 # Whether or not to calculate BV DS model stall angles
 calc_bv_stall_angles = False
+# Offset for BV DS model stall angles versus default (deg)
+bv_stall_angle_offset = 1.5
 
 
 header = \
@@ -34,6 +39,21 @@ re_list = ["8.3e4", "1.6e5", "3.8e5"]
 bv_stall_angles = {"8.3e4": 4.0, "1.6e5": 5.0, "3.8e5": 5.0}
 lb_lift_slopes = {"8.3e4": 5.277, "1.6e5": 5.371, "3.8e5": 6.303}
 lb_crit_cls = {"8.3e4": 0.829, "1.6e5": 1.031, "3.8e5": 1.32}
+
+# Manually add to BV stall angles
+for re in bv_stall_angles:
+    bv_stall_angles[re] += bv_stall_angle_offset
+
+
+def calc_lift_slope(df, alpha_max=9.0):
+    """Calculate lift coefficient slope per unit radian using a linear
+    regression.
+    """
+    df = df[df.alpha_deg >= 0]
+    df = df[df.alpha_deg <= alpha_max]
+    df["alpha_rad"] = np.deg2rad(df.alpha_deg)
+    slope, intercept, r_val, p_val, std_err = linregress(df.alpha_rad, df.cl)
+    return slope
 
 
 def detect_ss_angle(df, threshold=0.03):
@@ -61,7 +81,7 @@ def calc_crit_cl(df, re, fcrit=0.7, alpha1_fraction=0.87):
     """
     df["alpha_rad"] = np.deg2rad(df.alpha_deg)
     alpha1 = np.deg2rad(alpha1_fraction*detect_ss_angle(df))
-    # Use default lift slopes from CACTUS data
+    # Use existing lift slopes
     cn_alpha = lb_lift_slopes[re]
     cn1 = cn_alpha*alpha1*((1.0 + np.sqrt(fcrit))/2.0)**2
     return cn1
@@ -96,6 +116,9 @@ for re in re_list:
     df = df_sh_save_neg.append(df, ignore_index=True)
     df = df.append(df_sh_save_pos, ignore_index=True)
     dfs[re] = df
+    # Calculate lift slope
+    if calc_lift_slopes:
+        lb_lift_slopes[re] = calc_lift_slope(df)
     # Calculate critical normal force coefficients and use as critical `cl`
     if calc_lb_crit_cls:
         lb_crit_cls[re] = calc_crit_cl(df_sh, re)
