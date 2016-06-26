@@ -115,6 +115,8 @@ def param_sweep(param="tsr", start=None, stop=None, step=None, dtype=float,
     """
     print("Running {} sweep".format(param))
     fpath = "processed/{}_sweep.csv".format(param)
+    if kwargs["foildata"] == "Jacobs":
+        fpath = fpath.replace(".csv", "_Jacobs.csv")
     if os.path.isfile(fpath):
         if not overwrite and not append:
             sys.exit("{} sweep results present; remove, --append, or "
@@ -149,6 +151,9 @@ if __name__ == "__main__":
     parser.add_argument("--tp", type=float, default=1.7,
                         help="Leishman-Beddoes DS model Tp time constant")
     parser.add_argument("--no-walls", default=False, action="store_true")
+    parser.add_argument("--foil-data", default="Sheldahl",
+                        choices=["Sheldahl", "Jacobs"],
+                        help="Foil coefficient database")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
     parser.add_argument("--append", "-a", default=False, action="store_true",
@@ -160,6 +165,10 @@ if __name__ == "__main__":
     if walls:
         call(["python", "./scripts/makewalls.py"])
 
+    if args.foil_data == "Jacobs":
+        print("Creating hybrid Jacobs foil coefficient database")
+        call(["python", "./scripts/jacobs-data.py"])
+
     if args.param_sweep:
         name, start, stop, step = args.param_sweep
         if name in ["nti", "nbelem", "dynamic_stall"]:
@@ -170,8 +179,10 @@ if __name__ == "__main__":
         param_sweep(name, start=start, stop=stop, step=step, dtype=dtype,
                     append=args.append, overwrite=args.overwrite, tp=args.tp,
                     dynamic_stall=args.dynamic_stall, u_infty=args.u_infty,
-                    nti=args.nti, nbelem=args.nbelem, walls=int(walls))
+                    nti=args.nti, nbelem=args.nbelem, walls=int(walls),
+                    foildata=args.foil_data)
     else:
         run_cactus(tsr=args.tsr, dynamic_stall=args.dynamic_stall,
                    u_infty=args.u_infty, overwrite=args.overwrite, tp=args.tp,
-                   nti=args.nti, nbelem=args.nbelem, walls=int(walls))
+                   nti=args.nti, nbelem=args.nbelem, walls=int(walls),
+                   foildata=args.foil_data)

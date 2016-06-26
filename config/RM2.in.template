@@ -85,7 +85,7 @@
 
     ! Airfoil section data
     nSect     = 1
-    AFDPath   = './config/NACA_0021.dat'
+    AFDPath   = './config/foildata/NACA_0021_{foildata}.dat'
 
     ! Wall mesh
     WallMeshPath = './config/walls.xyz'

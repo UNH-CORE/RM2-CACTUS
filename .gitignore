@@ -73,6 +73,9 @@ config/RM2.geom
 
 config/walls.xyz
 
+# Automatically generated foil coeff database
+config/foildata/NACA_0021_Jacobs.dat
+
 *.stl
 *.zip
 temp
