@@ -324,14 +324,17 @@ def plot_foildata_lowre(xfoil=True, cfd=False, save=False):
                                   "NACA_0021_Jacobs_1.6e5.csv")}
     for d, m in zip(["Sheldahl", "Jacobs"], ["o", "^"]):
         df = data[d]
+        if "alpha_deg" in df:
+            df["alpha"] = df["alpha_deg"]
         df = df.sort_values(by="alpha")
         df = df[df.alpha >= -0.1]
+        df = df[df.alpha <= 30]
         ax.plot(df.alpha, df.cl, marker=m, label=d)
     ax.set_xlabel(r"$\alpha$ (degrees)")
     if xfoil:
         df = load_raw_xfoil_data(Re=1.6e5, alpha_name="alpha")
-        df = df[df.alpha > -0.1]
-        df = df[df.alpha < 30]
+        df = df[df.alpha >= -0.1]
+        df = df[df.alpha <= 30]
         ax.plot(df.alpha, df.cl, label="XFOIL", marker="x")
     if cfd:
         df_cfd = pd.read_csv("https://raw.githubusercontent.com/petebachant/"
