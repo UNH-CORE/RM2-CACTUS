@@ -447,7 +447,7 @@ if __name__ == "__main__":
     parser.add_argument("--xfoil", default=False, action="store_true",
                         help="Plot XFOIL results")
     parser.add_argument("--dynamic-stall", choices=["lb", "bv"],
-                        help="Dynamic stall model")
+                        help="Dynamic stall model", default="bv")
     args = parser.parse_args()
 
     if args.save:
