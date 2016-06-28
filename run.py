@@ -115,8 +115,8 @@ def param_sweep(param="tsr", start=None, stop=None, step=None, dtype=float,
     """
     print("Running {} sweep".format(param))
     fpath = "processed/{}_sweep.csv".format(param)
-    if kwargs["foildata"] == "Jacobs":
-        fpath = fpath.replace(".csv", "_Jacobs.csv")
+    if kwargs["foildata"] != "Sheldahl":
+        fpath = fpath.replace(".csv", "_{}.csv".format(kwargs["foildata"]))
     if kwargs["dynamic_stall"] == 1:
         fpath = fpath.replace(".csv", "_bv.csv")
     if os.path.isfile(fpath):
@@ -154,7 +154,7 @@ if __name__ == "__main__":
                         help="Leishman-Beddoes DS model Tp time constant")
     parser.add_argument("--no-walls", default=False, action="store_true")
     parser.add_argument("--foil-data", default="Sheldahl",
-                        choices=["Sheldahl", "Jacobs"],
+                        choices=["Sheldahl", "Jacobs", "XFOIL"],
                         help="Foil coefficient database")
     parser.add_argument("--overwrite", "-f", default=False, action="store_true",
                         help="Overwrite existing results")
